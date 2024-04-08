@@ -79,4 +79,7 @@ dependencies {
 
     // Timber
     implementation "com.jakewharton.timber:timber:$version_timber"
+
+    // Koin
+    implementation "io.insert-koin:koin-android:$version_koin"
 }

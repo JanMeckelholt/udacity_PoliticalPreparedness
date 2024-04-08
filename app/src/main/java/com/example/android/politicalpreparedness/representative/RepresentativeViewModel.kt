@@ -1,8 +1,31 @@
 package com.example.android.politicalpreparedness.representative
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class RepresentativeViewModel: ViewModel() {
+
+    private var _locationIsEnabled = MutableLiveData<Boolean?>()
+    val locationIsEnabled: LiveData<Boolean?>
+        get() = _locationIsEnabled
+
+    fun setLocationIsEnabled(value : Boolean){
+        _locationIsEnabled.value = value
+    }
+
+    private var _locationPermissionIsGranted = MutableLiveData<Boolean?>()
+    val locationPermissionIsGranted: LiveData<Boolean?>
+        get() = _locationPermissionIsGranted
+
+    fun setLocationPermissionIsGranted(value : Boolean){
+        _locationPermissionIsGranted.value = value
+    }
+
+    init {
+        _locationPermissionIsGranted.value = null
+        _locationIsEnabled.value = null
+    }
 
     //TODO: Establish live data for representatives and address
 

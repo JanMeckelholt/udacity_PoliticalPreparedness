@@ -2,6 +2,12 @@
 <resources>
     <dimen name="default_padding">8dp</dimen>
 
-    <!-- TODO: Add necessary dimension values -->s
+    <dimen name="list_item_size_text_title">30sp</dimen>
+    <dimen name="list_item_size_text_date">20sp</dimen>
+    <dimen name="header_size_text">30sp</dimen>
+    <dimen name="list_item_padding_horizontal">20sp</dimen>
+    <dimen name="list_item_padding_vertical">15sp</dimen>
+    <dimen name="list_item_size_icon">70dp</dimen>
+    <dimen name="spacing_normal">20dp</dimen>
 
 </resources>

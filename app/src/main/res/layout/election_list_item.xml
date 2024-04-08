@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="election"
+            type="com.example.android.politicalpreparedness.network.models.Election" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/electionTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/electionDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/list_item_size_text_title"
+            android:textColor="@color/default_text_color"
+            android:textStyle="bold"
+            android:text="@{election.name}"
+            android:paddingStart="@dimen/list_item_padding_horizontal"
+            android:paddingTop="@dimen/list_item_padding_vertical"
+            tools:text="VIP Test Election"
+            tools:textColor="@color/colorPrimary"/>
+        <TextView
+            android:id="@+id/electionDate"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/electionTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/list_item_size_text_date"
+            android:textColor="@color/default_text_color"
+            app:electionDateText="@{election.electionDay}"
+            tools:text="Sun Jun 06 00:00:00 EDT 2020"
+            tools:textColor="@color/colorPrimary"
+            android:paddingStart="@dimen/list_item_padding_horizontal"
+            android:paddingBottom="@dimen/list_item_padding_vertical"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
