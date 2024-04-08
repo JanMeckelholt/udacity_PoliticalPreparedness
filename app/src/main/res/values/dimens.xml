@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="default_padding">8dp</dimen>
+    <dimen name="default_padding">4dp</dimen>
+    <dimen name="size_social_media_icon">30dp</dimen>
 
     <dimen name="list_item_size_text_title">30sp</dimen>
     <dimen name="list_item_size_text_date">20sp</dimen>

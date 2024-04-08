@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="representative"
+            type="com.example.android.politicalpreparedness.representative.model.Representative" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/representativePhoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/list_item_padding_horizontal"
+            android:src="@drawable/ic_profile"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+
+        <TextView
+            android:id="@+id/representativeName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/default_padding"
+            android:paddingTop="@dimen/list_item_padding_vertical"
+            android:text="@{representative.official.name}"
+            android:textColor="@color/default_text_color"
+            android:textSize="@dimen/list_item_size_text_title"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/representativeParty"
+            app:layout_constraintStart_toEndOf="@+id/representativePhoto"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Donald J. Trump"
+            tools:textColor="@color/colorPrimary" />
+
+        <TextView
+            android:id="@+id/representativeParty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/default_padding"
+            android:paddingBottom="@dimen/list_item_padding_vertical"
+            android:text="@{representative.official.name}"
+            android:textColor="@color/default_text_color"
+            android:textSize="@dimen/list_item_size_text_date"
+            app:layout_constraintStart_toEndOf="@id/representativePhoto"
+            app:layout_constraintTop_toBottomOf="@id/representativeName"
+            tools:text="Republican Party"
+            tools:textColor="@color/colorPrimary" />
+
+        <ImageView
+            android:id="@+id/wwwIcon"
+            android:layout_width="@dimen/size_social_media_icon"
+            android:layout_height="@dimen/size_social_media_icon"
+            android:paddingHorizontal="@dimen/default_padding"
+            android:src="@drawable/ic_www"
+           app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/facebookIcon" />
+
+        <ImageView
+            android:id="@+id/facebookIcon"
+            android:layout_width="@dimen/size_social_media_icon"
+            android:layout_height="@dimen/size_social_media_icon"
+            android:paddingHorizontal="@dimen/default_padding"
+            android:src="@drawable/ic_facebook"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/twitterIcon" />
+
+        <ImageView
+            android:id="@+id/twitterIcon"
+            android:layout_width="@dimen/size_social_media_icon"
+            android:layout_height="@dimen/size_social_media_icon"
+            android:paddingHorizontal="@dimen/default_padding"
+            android:src="@drawable/ic_twitter"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -11,14 +11,16 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.politicalpreparedness.R
-import com.example.android.politicalpreparedness.databinding.ViewholderRepresentativeBinding
+import com.example.android.politicalpreparedness.databinding.RepresentativeListItemBinding
+
 import com.example.android.politicalpreparedness.network.models.Channel
+import com.example.android.politicalpreparedness.network.models.Election
 import com.example.android.politicalpreparedness.representative.model.Representative
 
-class RepresentativeListAdapter: ListAdapter<Representative, RepresentativeViewHolder>(RepresentativeDiffCallback()){
+class RepresentativeListAdapter(private val representativeListener: RepresentativeListener): ListAdapter<Representative, RepresentativeViewHolder>(RepresentativeViewHolder.DiffCallback){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepresentativeViewHolder {
-        return RepresentativeViewHolder.from(parent)
+        return RepresentativeViewHolder(RepresentativeListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun onBindViewHolder(holder: RepresentativeViewHolder, position: Int) {
@@ -27,7 +29,7 @@ class RepresentativeListAdapter: ListAdapter<Representative, RepresentativeViewH
     }
 }
 
-class RepresentativeViewHolder(val binding: ViewholderRepresentativeBinding): RecyclerView.ViewHolder(binding.root) {
+class RepresentativeViewHolder(val binding: RepresentativeListItemBinding): RecyclerView.ViewHolder(binding.root) {
 
     fun bind(item: Representative) {
         binding.representative = item
@@ -75,9 +77,20 @@ class RepresentativeViewHolder(val binding: ViewholderRepresentativeBinding): Re
         val intent = Intent(ACTION_VIEW, uri)
         itemView.context.startActivity(intent)
     }
+    companion object DiffCallback : DiffUtil.ItemCallback<Representative>() {
+        override fun areItemsTheSame(oldItem: Representative, newItem: Representative): Boolean {
+            return oldItem.official.name == newItem.official.name
+        }
+
+        override fun areContentsTheSame(oldItem: Representative, newItem: Representative): Boolean {
+            return oldItem.official == newItem.official
+        }
+
+    }
 
 }
 
-//TODO: Create RepresentativeDiffCallback
 
-//TODO: Create RepresentativeListener
+class RepresentativeListener(val clickListener: (representative: Representative) -> Unit) {
+    fun onClick(representative: Representative) = clickListener(representative)
+}

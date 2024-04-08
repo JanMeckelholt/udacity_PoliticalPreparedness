@@ -13,10 +13,10 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
-            android:id="@+id/electionTitle"
+            android:id="@+id/representativeName"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/electionDate"
+            app:layout_constraintBottom_toTopOf="@id/representativeParty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/list_item_size_text_title"
@@ -28,9 +28,9 @@
             tools:text="VIP Test Election"
             tools:textColor="@color/colorPrimary"/>
         <TextView
-            android:id="@+id/electionDate"
+            android:id="@+id/representativeParty"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/electionTitle"
+            app:layout_constraintTop_toBottomOf="@id/representativeName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/list_item_size_text_date"
