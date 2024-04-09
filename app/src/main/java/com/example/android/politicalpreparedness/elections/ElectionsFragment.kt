@@ -30,7 +30,7 @@ class ElectionsFragment: Fragment() {
         binding.viewModel = viewModel
         binding.rvUpcomingElections.adapter = ElectionListAdapter(ElectionListener { viewModel.displayElectionDetails(it) })
         binding.rvSavedElections.adapter = ElectionListAdapter(ElectionListener { viewModel.elections })
-        Timber.i("viewmodel $viewModel - package name: ${requireContext().packageName}")
+
         viewModel.elections.observe(viewLifecycleOwner, Observer {
             Timber.i("elections changed: $it")
         })
