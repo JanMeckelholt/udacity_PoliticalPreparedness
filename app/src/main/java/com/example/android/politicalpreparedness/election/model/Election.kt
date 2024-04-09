@@ -1,6 +1,7 @@
-package com.example.android.politicalpreparedness.network.models
+package com.example.android.politicalpreparedness.election.model
 
 import androidx.room.*
+import com.example.android.politicalpreparedness.representative.model.Division
 import com.squareup.moshi.*
 import java.util.*
 
@@ -8,6 +9,8 @@ import java.util.*
 data class Election(
         @PrimaryKey val id: Int,
         @ColumnInfo(name = "name")val name: String,
+        //@ColumnInfo(name = "electionDay")val electionDay: String,
         @ColumnInfo(name = "electionDay")val electionDay: Date,
+        //@ColumnInfo(name="ocdDivisionId")val division: String
         @Embedded(prefix = "division_") @Json(name="ocdDivisionId") val division: Division
 )

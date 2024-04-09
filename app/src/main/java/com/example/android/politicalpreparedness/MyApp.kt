@@ -18,12 +18,12 @@ class MyApp : BaseAppliction() {
         val myModule = module {
             //Declare a ViewModel - be later inject into Fragment with dedicated injector using by viewModel()
             viewModel {
-                RepresentativeViewModel()
+                ElectionsViewModel()
             }
             //Declare singleton definitions to be later injected using by inject()
             single {
                 //This view model is declared singleton to be used across multiple fragments
-                ElectionsViewModel()
+                RepresentativeViewModel()
             }
         }
 

@@ -1,5 +1,6 @@
 package com.example.android.politicalpreparedness.network.models
 
+import com.example.android.politicalpreparedness.representative.model.Address
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)

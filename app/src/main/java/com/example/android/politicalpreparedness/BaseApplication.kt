@@ -3,7 +3,7 @@ package com.example.android.politicalpreparedness
 import android.app.Application
 import timber.log.Timber
 
-const val globalTag = "rd_mxs"
+const val globalTag = "jmeckel"
 open class BaseAppliction : Application(){
     override fun onCreate() {
         super.onCreate()

@@ -1,4 +1,4 @@
-package com.example.android.politicalpreparedness.network.models
+package com.example.android.politicalpreparedness.representative.model
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

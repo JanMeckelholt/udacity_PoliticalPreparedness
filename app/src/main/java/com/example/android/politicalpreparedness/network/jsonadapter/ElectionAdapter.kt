@@ -1,6 +1,6 @@
 package com.example.android.politicalpreparedness.network.jsonadapter
 
-import com.example.android.politicalpreparedness.network.models.Division
+import com.example.android.politicalpreparedness.representative.model.Division
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.ToJson
 

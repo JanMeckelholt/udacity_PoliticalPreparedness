@@ -1,17 +1,14 @@
 package com.example.android.politicalpreparedness.election.adapter
 
 import android.view.LayoutInflater
-import android.view.View
-import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.android.politicalpreparedness.databinding.ElectionListItemBinding
-import com.example.android.politicalpreparedness.network.models.Election
+import com.example.android.politicalpreparedness.election.model.Election
 import java.util.Date
 
 class ElectionListAdapter(private val electionListener: ElectionListener)
