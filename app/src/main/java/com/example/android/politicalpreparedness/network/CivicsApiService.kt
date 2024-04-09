@@ -43,8 +43,13 @@ interface CivicsApiService {
     suspend fun getElections(): ElectionResponse
 
     @GET(VOTERINFO_PATH)
-    suspend fun getVoterInfo(
+    suspend fun getVoterInfoForAddress(
         @Query("address") address: String,
+    ): VoterInfoResponse
+
+    @GET(VOTERINFO_PATH)
+    suspend fun getVoterInfoForElection(
+        @Query("electionId") electionId: Long,
     ): VoterInfoResponse
 
     @GET(REPRESENTATIVES_PATH)

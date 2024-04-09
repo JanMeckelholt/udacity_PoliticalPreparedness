@@ -1,10 +1,10 @@
-package com.example.android.politicalpreparedness.election
+package com.example.android.politicalpreparedness.elections
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.android.politicalpreparedness.election.model.Election
+import com.example.android.politicalpreparedness.elections.model.Election
 import com.example.android.politicalpreparedness.network.CivicsApi
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -23,6 +23,10 @@ class ElectionsViewModel : ViewModel() {
     val elections: LiveData<List<Election>?>
         get() = _elections
 
+    private val _navigateToSelectedElection = MutableLiveData<Election?>()
+    val navigateToSelectedElection: LiveData<Election?>
+        get() = _navigateToSelectedElection
+
     init {
         _status.value = null
         getDataFromCivic()
@@ -30,6 +34,14 @@ class ElectionsViewModel : ViewModel() {
 
     fun doneShowingSnackBar() {
         _status.value = CivicApiStatus.DONE
+    }
+
+    fun displayElectionDetails(election: Election) {
+        _navigateToSelectedElection.value = election
+    }
+
+    fun navigationDone() {
+        _navigateToSelectedElection.value = null
     }
 
     //TODO: Create live data val for upcoming elections

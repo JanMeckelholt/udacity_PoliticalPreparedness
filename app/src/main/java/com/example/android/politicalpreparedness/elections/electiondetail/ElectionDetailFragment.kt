@@ -1,19 +1,28 @@
-package com.example.android.politicalpreparedness.election
+package com.example.android.politicalpreparedness.elections.electiondetail
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
+import com.example.android.politicalpreparedness.databinding.FragmentElectionDetailBinding
+import org.koin.android.ext.android.inject
 
-class VoterInfoFragment : Fragment() {
+class ElectionDetailFragment : Fragment() {
 
+    private val args: ElectionDetailFragmentArgs by navArgs()
+    private val viewModel : ElectionDetailViewModel by inject()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?)
     : View? {
-
+        val election = args.selectedElection
+        val binding = FragmentElectionDetailBinding.inflate(inflater)
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
+        viewModel.setElection(election)
         // TODO: Add ViewModel values and create ViewModel
 
         // TODO: Add binding values
@@ -28,7 +37,7 @@ class VoterInfoFragment : Fragment() {
 
         // TODO: Handle save button UI state
         // TODO: cont'd Handle save button clicks
-        return null
+        return binding.root
     }
 
     // TODO: Create method to load URL intents

@@ -1,4 +1,4 @@
-package com.example.android.politicalpreparedness.election.adapter
+package com.example.android.politicalpreparedness.elections.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.android.politicalpreparedness.databinding.ElectionListItemBinding
-import com.example.android.politicalpreparedness.election.model.Election
+import com.example.android.politicalpreparedness.elections.model.Election
 import java.util.Date
 
 class ElectionListAdapter(private val electionListener: ElectionListener)

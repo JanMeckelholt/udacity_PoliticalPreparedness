@@ -1,4 +1,4 @@
-package com.example.android.politicalpreparedness.election
+package com.example.android.politicalpreparedness.elections
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,10 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.example.android.politicalpreparedness.R
-import com.example.android.politicalpreparedness.databinding.FragmentElectionBinding
-import com.example.android.politicalpreparedness.election.adapter.ElectionListAdapter
-import com.example.android.politicalpreparedness.election.adapter.ElectionListener
+import com.example.android.politicalpreparedness.databinding.FragmentElectionsBinding
+import com.example.android.politicalpreparedness.elections.adapter.ElectionListAdapter
+import com.example.android.politicalpreparedness.elections.adapter.ElectionListener
 import com.google.android.material.snackbar.Snackbar
 import org.koin.android.ext.android.inject
 import timber.log.Timber
@@ -24,10 +25,10 @@ class ElectionsFragment: Fragment() {
         savedInstanceState: Bundle?)
     : View {
 
-        val binding = FragmentElectionBinding.inflate(inflater)
+        val binding = FragmentElectionsBinding.inflate(inflater)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-        binding.rvUpcomingElections.adapter = ElectionListAdapter(ElectionListener { viewModel.elections })
+        binding.rvUpcomingElections.adapter = ElectionListAdapter(ElectionListener { viewModel.displayElectionDetails(it) })
         binding.rvSavedElections.adapter = ElectionListAdapter(ElectionListener { viewModel.elections })
         Timber.i("viewmodel $viewModel - package name: ${requireContext().packageName}")
         viewModel.elections.observe(viewLifecycleOwner, Observer {
@@ -51,6 +52,16 @@ class ElectionsFragment: Fragment() {
                 binding.rvUpcomingElections.visibility = View.VISIBLE
             }
 
+        })
+
+        viewModel.navigateToSelectedElection.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                val bundle = Bundle()
+                bundle.putParcelable("selectedElection", it)
+                Timber.i("selectedElection ${it.name}")
+                this.findNavController().navigate(R.id.action_electionsFragment_to_electionDetailFragment, bundle)
+                viewModel.navigationDone()
+            }
         })
 
         // TODO: Add ViewModel values and create ViewModel
