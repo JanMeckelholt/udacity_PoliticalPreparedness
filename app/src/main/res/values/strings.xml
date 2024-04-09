@@ -9,4 +9,9 @@
     <string name="location_required_error">Location must be enabled</string>
     <string name="foreground_location_permission_required">Grant foreground location permission to the app to get your position.</string>
 
+    <string name="upcomingElections">Upcoming Elections</string>
+    <string name="savedElections">Saved Elections</string>
+
+    <string name="api_error">Could not get Data from Civic.</string>
+
 </resources>

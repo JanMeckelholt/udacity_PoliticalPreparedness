@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="default_padding">4dp</dimen>
+    <dimen name="default_padding">15dp</dimen>
+    <dimen name="default_margin">20dp</dimen>
     <dimen name="btn_margin">20dp</dimen>
     <dimen name="size_social_media_icon">30dp</dimen>
 
-    <dimen name="list_item_size_text_title">30sp</dimen>
+    <dimen name="list_item_size_text_title">25sp</dimen>
     <dimen name="list_item_size_text_date">20sp</dimen>
     <dimen name="header_size_text">30sp</dimen>
     <dimen name="list_item_padding_horizontal">20sp</dimen>

@@ -6,6 +6,7 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.android.politicalpreparedness.databinding.ElectionListItemBinding
 import com.example.android.politicalpreparedness.election.model.Election
@@ -57,6 +58,11 @@ class ElectionViewHolder(private var binding: ElectionListItemBinding) : ViewHol
 
 @BindingAdapter("electionDateText")
 fun bindTextViewToElectionDay(textView: TextView, electionDay: Date) {
-    val context = textView.context
     textView.text = electionDay.toString()
+}
+
+@BindingAdapter("electionListData")
+fun bindRecyclerView(recyclerView: RecyclerView, data: List<Election>?) {
+    val adapter = recyclerView.adapter as ElectionListAdapter
+    adapter.submitList(data)
 }

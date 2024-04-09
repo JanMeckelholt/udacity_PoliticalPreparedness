@@ -28,6 +28,10 @@ class ElectionsViewModel : ViewModel() {
         getDataFromCivic()
     }
 
+    fun doneShowingSnackBar() {
+        _status.value = CivicApiStatus.DONE
+    }
+
     //TODO: Create live data val for upcoming elections
 
     //TODO: Create live data val for saved elections
@@ -51,7 +55,7 @@ class ElectionsViewModel : ViewModel() {
             Timber.i("Success! Got Data from Civic")
             return CivicApiStatus.DONE
         } catch (e: Exception) {
-            Timber.e("Failure getting elections: ${e.message}")
+            Timber.e("Failure getting elections: ${e.message} - $e")
             return CivicApiStatus.ERROR
         }
     }
