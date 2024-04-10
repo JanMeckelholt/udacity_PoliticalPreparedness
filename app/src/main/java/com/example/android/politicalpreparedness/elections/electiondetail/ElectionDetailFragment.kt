@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
+import com.example.android.politicalpreparedness.Constants
 import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.databinding.FragmentElectionDetailBinding
-import com.example.android.politicalpreparedness.elections.CivicApiStatus
 import com.google.android.material.snackbar.Snackbar
 import org.koin.android.ext.android.inject
 import timber.log.Timber
@@ -33,13 +33,13 @@ class ElectionDetailFragment : Fragment() {
         viewModel.setElection(election)
 
         viewModel.status.observe(viewLifecycleOwner, Observer {
-            if (it == CivicApiStatus.LOADING) {
+            if (it == Constants.CivicApiStatus.LOADING) {
                 binding.statusLoadingWheel.visibility = View.VISIBLE
                 binding.tvElectionInformationHeader.visibility = View.GONE
                 binding.tvVotingLocations.visibility = View.GONE
                 binding.tvBallotInformation.visibility = View.GONE
             } else {
-                if (it == CivicApiStatus.ERROR) {
+                if (it == Constants.CivicApiStatus.ERROR) {
                     Snackbar
                         .make(
                             requireActivity().findViewById(android.R.id.content),

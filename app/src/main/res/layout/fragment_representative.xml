@@ -35,7 +35,8 @@
             android:inputType="textPostalAddress"
             android:hint="@string/address_line_1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvRepresentativeSearchTitle" />
+            app:layout_constraintTop_toBottomOf="@id/tvRepresentativeSearchTitle"
+            android:text="@={viewModel.addressLine1}"/>
 
         <!-- TODO: Add data binding value -->
         <!-- TODO: Add visual styling and content -->
@@ -47,7 +48,8 @@
             android:inputType="textPostalAddress"
             android:hint="@string/address_line_2"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/etAddressLine1" />
+            app:layout_constraintTop_toBottomOf="@id/etAddressLine1"
+            android:text="@={viewModel.addressLine2}"/>
 
         <!-- TODO: Add data binding value -->
         <!-- TODO: Add visual styling and content -->
@@ -60,7 +62,8 @@
             android:hint="@string/city"
             app:layout_constraintEnd_toStartOf="@id/spinnerState"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/etAddressLine2" />
+            app:layout_constraintTop_toBottomOf="@id/etAddressLine2"
+            android:text="@={viewModel.city}"/>
 
         <!-- TODO: Add default values from provided resources  -->
         <!-- TODO: Add data binding value -->
@@ -92,7 +95,8 @@
             android:hint="@string/zip"
             app:layout_constraintEnd_toEndOf="@id/etCity"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/etCity" />
+            app:layout_constraintTop_toBottomOf="@id/etCity"
+            android:text="@={viewModel.zip}"/>
 
         <!-- TODO: Add visual styling and label -->
         <Button
@@ -142,15 +146,33 @@
         <!-- TODO: Add Representatives RecyclerView -->
 
         <!-- TODO: Add visual styling and content -->
-        <TextView
-            android:id="@+id/list_placeholder"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:gravity="center"
-            android:textAlignment="center"
-            android:visibility="gone"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvRepresentatives"
+            android:layout_width="0dp"
+            android:layout_height="300dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:representativesListData="@{viewModel.representatives}"
+            app:layout_constraintBottom_toTopOf="@id/status_loading_wheel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvMyRepresentativesTitle"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvMyRepresentativesTitle"
-            motion:visibilityMode="ignore" />
+            app:layout_constraintVertical_bias="0.0"
+
+            android:paddingTop="20dp"/>
+
+        <ProgressBar
+            android:id="@+id/status_loading_wheel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/horizontalLine"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rvUpcomingElections"
+            android:layout_marginVertical="@dimen/default_margin"
+            />
     </androidx.constraintlayout.motion.widget.MotionLayout>
 </layout>

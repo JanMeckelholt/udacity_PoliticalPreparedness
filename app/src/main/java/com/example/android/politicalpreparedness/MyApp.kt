@@ -30,7 +30,7 @@ class MyApp : BaseAppliction() {
             //Declare singleton definitions to be later injected using by inject()
             viewModel {
                 //This view model is declared singleton to be used across multiple fragments
-                RepresentativeViewModel()
+                RepresentativeViewModel(this@MyApp)
             }
 
             single { ElectionDatabase.getInstance(this@MyApp).electionDao  }

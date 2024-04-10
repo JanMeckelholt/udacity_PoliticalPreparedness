@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.example.android.politicalpreparedness.Constants
 import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.databinding.FragmentElectionsBinding
 import com.example.android.politicalpreparedness.elections.adapter.ElectionListAdapter
@@ -38,16 +39,20 @@ class ElectionsFragment: Fragment() {
             Timber.i("saved elections changed: $it")
         })
         viewModel.status.observe(viewLifecycleOwner, Observer {
-            if (it == CivicApiStatus.LOADING) {
+            if (it == Constants.CivicApiStatus.LOADING) {
                 binding.statusLoadingWheel.visibility = View.VISIBLE
                 binding.rvUpcomingElections.visibility = View.GONE
             } else {
-                if (it == CivicApiStatus.ERROR) {
-                    Snackbar.make(
-                        requireActivity().findViewById(android.R.id.content),
-                        getString(R.string.api_error),
-                        Snackbar.LENGTH_SHORT
-                    ).show()
+                if (it == Constants.CivicApiStatus.ERROR) {
+                    Snackbar
+                        .make(
+                            requireActivity().findViewById(android.R.id.content),
+                            getString(R.string.api_error),
+                            Snackbar.LENGTH_LONG
+                        )
+                        .setBackgroundTint(resources.getColor(R.color.colorError))
+                        .setTextColor(resources.getColor(R.color.colorBlack))
+                        .show()
                     viewModel.doneShowingSnackBar()
                 }
                 binding.statusLoadingWheel.visibility = View.GONE

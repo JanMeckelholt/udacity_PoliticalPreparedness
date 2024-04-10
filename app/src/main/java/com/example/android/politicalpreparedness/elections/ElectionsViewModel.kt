@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.android.politicalpreparedness.Constants
 import com.example.android.politicalpreparedness.database.ElectionDao
 import com.example.android.politicalpreparedness.elections.model.Election
 import com.example.android.politicalpreparedness.network.CivicsApi
@@ -11,13 +12,12 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.lang.Exception
 
-enum class CivicApiStatus { LOADING, ERROR, DONE }
 
 //TODO: Construct ViewModel and provide election datasource
 class ElectionsViewModel(private val dataSource: ElectionDao) : ViewModel() {
 
-    private val _status = MutableLiveData<CivicApiStatus?>()
-    val status: LiveData<CivicApiStatus?>
+    private val _status = MutableLiveData<Constants.CivicApiStatus?>()
+    val status: LiveData<Constants.CivicApiStatus?>
         get() = _status
 
     private val _elections = MutableLiveData<List<Election>?>()
@@ -39,7 +39,7 @@ class ElectionsViewModel(private val dataSource: ElectionDao) : ViewModel() {
     }
 
     fun doneShowingSnackBar() {
-        _status.value = CivicApiStatus.DONE
+        _status.value = Constants.CivicApiStatus.DONE
     }
 
     fun displayElectionDetails(election: Election) {
@@ -61,20 +61,20 @@ class ElectionsViewModel(private val dataSource: ElectionDao) : ViewModel() {
     private fun getDataFromCivic() {
         Timber.i("getting Data from Civic")
         viewModelScope.launch {
-            _status.value = CivicApiStatus.LOADING
+            _status.value = Constants.CivicApiStatus.LOADING
             _status.value = getElections()
         }
     }
 
-    private suspend fun getElections(): CivicApiStatus {
+    private suspend fun getElections(): Constants.CivicApiStatus {
         try {
             val electionResponse = CivicsApi.retrofitService.getElections()
             _elections.value = electionResponse.elections
             Timber.i("Success! Got Data from Civic")
-            return CivicApiStatus.DONE
+            return Constants.CivicApiStatus.DONE
         } catch (e: Exception) {
             Timber.e("Failure getting elections: ${e.message} - $e")
-            return CivicApiStatus.ERROR
+            return Constants.CivicApiStatus.ERROR
         }
     }
 

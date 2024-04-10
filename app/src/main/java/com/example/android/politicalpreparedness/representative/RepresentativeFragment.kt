@@ -22,10 +22,15 @@ import androidx.core.app.ActivityCompat
 import androidx.core.location.LocationManagerCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.example.android.politicalpreparedness.BuildConfig
 import com.example.android.politicalpreparedness.Constants
 import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.databinding.FragmentRepresentativeBinding
+import com.example.android.politicalpreparedness.elections.adapter.ElectionListAdapter
+import com.example.android.politicalpreparedness.elections.adapter.ElectionListener
+import com.example.android.politicalpreparedness.representative.adapter.RepresentativeListAdapter
+import com.example.android.politicalpreparedness.representative.adapter.RepresentativeListener
 import com.example.android.politicalpreparedness.representative.model.Address
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.ResolvableApiException
@@ -46,23 +51,42 @@ class RepresentativeFragment : Fragment() {
         //TODO: Add Constant for Location request
     }
 
-    private val _viewModel : RepresentativeViewModel by inject()
+    private val _viewModel: RepresentativeViewModel by inject()
     private lateinit var binding: FragmentRepresentativeBinding
-    private lateinit var permissionLauncher : ActivityResultLauncher<String>
+    private lateinit var permissionLauncher: ActivityResultLauncher<String>
 
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
         val layoutId = R.layout.fragment_representative
         binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
+        binding.viewModel = _viewModel
+        binding.lifecycleOwner = this
 
-        val adapter: ArrayAdapter<String> = ArrayAdapter<String>(
-            requireContext(),
-            android.R.layout.simple_spinner_dropdown_item, Constants.usStates.values.toMutableList()
-        )
 
-        binding.spinnerState.adapter = adapter
+        binding.rvRepresentatives.adapter = RepresentativeListAdapter(RepresentativeListener { Timber.i("representative clicked ${it.name}") })
+
+        binding.btnFindMyRepresentative.setOnClickListener {
+            _viewModel.searchMyRepresentatives()
+        }
+
+        _viewModel.snackbarText.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                Snackbar
+                    .make(
+                        requireActivity().findViewById(android.R.id.content),
+                        it,
+                        Snackbar.LENGTH_LONG
+                    )
+                    .setBackgroundTint(resources.getColor(R.color.colorError))
+                    .setTextColor(resources.getColor(R.color.colorBlack))
+                    .show()
+                _viewModel.doneShowingSnackBar()
+            }
+        })
 
         //TODO: Define and assign Representative adapter
 
@@ -72,7 +96,11 @@ class RepresentativeFragment : Fragment() {
         return binding.root
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQUEST_LOCATION_PERMISSION) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -90,7 +118,13 @@ class RepresentativeFragment : Fragment() {
         val geocoder = Geocoder(requireContext(), Locale.getDefault())
         return geocoder.getFromLocation(location.latitude, location.longitude, 1)
             ?.map { address ->
-                Address(address.thoroughfare, address.subThoroughfare, address.locality, address.adminArea, address.postalCode)
+                Address(
+                    address.thoroughfare,
+                    address.subThoroughfare,
+                    address.locality,
+                    address.adminArea,
+                    address.postalCode
+                )
             }
             ?.first() ?: Address("not found", null, "not found", "not found", "not found")
     }
@@ -99,7 +133,6 @@ class RepresentativeFragment : Fragment() {
         val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(requireView().windowToken, 0)
     }
-
 
 
     private fun isLocationEnabled(context: Context): Boolean {
@@ -170,19 +203,25 @@ class RepresentativeFragment : Fragment() {
     }
 
 
-    private fun registerFineLocationRequestPermissionLauncher(){
+    private fun registerFineLocationRequestPermissionLauncher() {
         permissionLauncher =
             registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
                 when (granted) {
                     true -> {
                         setLocationPermission()
                     }
+
                     false -> {
-                        Snackbar.make(binding.root, R.string.foreground_location_permission_required, Snackbar.LENGTH_INDEFINITE)
+                        Snackbar.make(
+                            binding.root,
+                            R.string.foreground_location_permission_required,
+                            Snackbar.LENGTH_INDEFINITE
+                        )
                             .setAction(R.string.settings) {
                                 startActivity(Intent().apply {
                                     action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-                                    data = Uri.fromParts("package", BuildConfig.APPLICATION_ID, null)
+                                    data =
+                                        Uri.fromParts("package", BuildConfig.APPLICATION_ID, null)
                                     flags = Intent.FLAG_ACTIVITY_NEW_TASK
                                 })
                             }

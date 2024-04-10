@@ -28,4 +28,6 @@
     <string name="city">City</string>
     <string name="zip">Zip</string>
 
+    <string name="errTxtAddressInvalid">Please enter a valid address.</string>
+
 </resources>

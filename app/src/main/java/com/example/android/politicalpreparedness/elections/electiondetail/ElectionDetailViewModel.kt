@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.android.politicalpreparedness.Constants
 import com.example.android.politicalpreparedness.database.ElectionDao
-import com.example.android.politicalpreparedness.elections.CivicApiStatus
 import com.example.android.politicalpreparedness.elections.model.Election
 import com.example.android.politicalpreparedness.network.CivicsApi
 import com.example.android.politicalpreparedness.network.models.VoterInfoResponse
@@ -16,12 +16,12 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.lang.Exception
 
-enum class CivicApiStatus { LOADING, ERROR, DONE }
+
 class ElectionDetailViewModel(private val dataSource: ElectionDao) : ViewModel() {
 
 
-    private val _status = MutableLiveData<CivicApiStatus?>()
-    val status: LiveData<CivicApiStatus?>
+    private val _status = MutableLiveData<Constants.CivicApiStatus?>()
+    val status: LiveData<Constants.CivicApiStatus?>
         get() = _status
 
     private val _election = MutableLiveData<Election?>()
@@ -44,7 +44,7 @@ class ElectionDetailViewModel(private val dataSource: ElectionDao) : ViewModel()
     }
 
     fun doneShowingSnackBar() {
-        _status.value = CivicApiStatus.DONE
+        _status.value = Constants.CivicApiStatus.DONE
     }
 
     fun onFollowOrUnfollowClicked() {
@@ -117,12 +117,12 @@ class ElectionDetailViewModel(private val dataSource: ElectionDao) : ViewModel()
     private fun getDataFromCivic(election: Election) {
         Timber.i("getting Data from Civic")
         viewModelScope.launch {
-            _status.value = CivicApiStatus.LOADING
+            _status.value = Constants.CivicApiStatus.LOADING
             _status.value = getElectionDetails(election)
         }
     }
 
-    private suspend fun getElectionDetails(election: Election): CivicApiStatus {
+    private suspend fun getElectionDetails(election: Election): Constants.CivicApiStatus {
         try {
             val electionId = election.id.toLong()
             Timber.i("electionId: $electionId - election: ${election}")
@@ -134,11 +134,11 @@ class ElectionDetailViewModel(private val dataSource: ElectionDao) : ViewModel()
             _electionDetail.value = electionDetailResponse
             Timber.i("Details for election $electionId: state: ${electionDetailResponse.state} polling: ${electionDetailResponse.pollingLocations}")
 
-            return CivicApiStatus.DONE
+            return Constants.CivicApiStatus.DONE
         } catch (e: Exception) {
             Timber.e("Failure getting election details: ${e.message} - $e")
             _electionDetail.value = null
-            return CivicApiStatus.ERROR
+            return Constants.CivicApiStatus.ERROR
         }
     }
 
