@@ -17,12 +17,13 @@ import timber.log.Timber
 class ElectionDetailFragment : Fragment() {
 
     private val args: ElectionDetailFragmentArgs by navArgs()
-    private val viewModel : ElectionDetailViewModel by inject()
+    private val viewModel: ElectionDetailViewModel by inject()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?)
-    : View? {
+        savedInstanceState: Bundle?
+    )
+            : View? {
         val election = args.selectedElection
         Timber.i("selectedElection: $election")
         val binding = FragmentElectionDetailBinding.inflate(inflater)
@@ -33,22 +34,26 @@ class ElectionDetailFragment : Fragment() {
         viewModel.status.observe(viewLifecycleOwner, Observer {
             if (it == CivicApiStatus.LOADING) {
                 binding.statusLoadingWheel.visibility = View.VISIBLE
-                binding.stateHeader.visibility = View.GONE
-                binding.stateLocations.visibility = View.GONE
-                binding.stateBallot.visibility = View.GONE
+                binding.tvElectionInformationHeader.visibility = View.GONE
+                binding.tvVotingLocations.visibility = View.GONE
+                binding.tvBallotInformation.visibility = View.GONE
             } else {
                 if (it == CivicApiStatus.ERROR) {
-                    Snackbar.make(
-                        requireActivity().findViewById(android.R.id.content),
-                        getString(R.string.api_error),
-                        Snackbar.LENGTH_SHORT
-                    ).show()
+                    Snackbar
+                        .make(
+                            requireActivity().findViewById(android.R.id.content),
+                            getString(R.string.api_error),
+                            Snackbar.LENGTH_LONG
+                        )
+                        .setBackgroundTint(resources.getColor(R.color.colorError))
+                        .setTextColor(resources.getColor(R.color.colorBlack))
+                        .show()
                     viewModel.doneShowingSnackBar()
                 }
                 binding.statusLoadingWheel.visibility = View.GONE
-                binding.stateHeader.visibility = View.VISIBLE
-                binding.stateLocations.visibility = View.VISIBLE
-                binding.stateBallot.visibility = View.VISIBLE
+                binding.tvElectionInformationHeader.visibility = View.VISIBLE
+                binding.tvVotingLocations.visibility = View.VISIBLE
+                binding.tvBallotInformation.visibility = View.VISIBLE
             }
 
         })
@@ -60,7 +65,7 @@ class ElectionDetailFragment : Fragment() {
 
         /**
         Hint: You will need to ensure proper data is provided from previous fragment.
-        */
+         */
 
         // TODO: Handle loading of URLs
 

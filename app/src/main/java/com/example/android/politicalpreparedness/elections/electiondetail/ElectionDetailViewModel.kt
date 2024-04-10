@@ -8,6 +8,7 @@ import com.example.android.politicalpreparedness.database.ElectionDao
 import com.example.android.politicalpreparedness.elections.CivicApiStatus
 import com.example.android.politicalpreparedness.elections.model.Election
 import com.example.android.politicalpreparedness.network.CivicsApi
+import com.example.android.politicalpreparedness.network.models.VoterInfoResponse
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.lang.Exception
@@ -23,6 +24,11 @@ class ElectionDetailViewModel(private val dataSource: ElectionDao) : ViewModel()
 
     val election: LiveData<Election?>
         get() = _election
+
+    private val _electionDetail = MutableLiveData<VoterInfoResponse?>()
+
+    val electionDetail: LiveData<VoterInfoResponse?>
+        get() = _electionDetail
 
     fun setElection(election: Election) {
         _election.value = election
@@ -65,11 +71,13 @@ class ElectionDetailViewModel(private val dataSource: ElectionDao) : ViewModel()
             Timber.i("electionId: $electionId - election: ${election}")
             val electionDetailResponse =
                 CivicsApi.retrofitService.getVoterInfoForElection(electionId = electionId, address = election.division.state)
+            _electionDetail.value = electionDetailResponse
             Timber.i("Details for election $electionId: state: ${electionDetailResponse.state} polling: ${electionDetailResponse.pollingLocations}")
 
             return CivicApiStatus.DONE
         } catch (e: Exception) {
             Timber.e("Failure getting election details: ${e.message} - $e")
+            _electionDetail.value = null
             return CivicApiStatus.ERROR
         }
     }
