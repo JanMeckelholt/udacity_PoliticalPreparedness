@@ -107,7 +107,18 @@
             app:layout_constraintStart_toStartOf="@id/election_date"
             app:electionDetailCorrespondenceAddress="@{viewModel.electionDetail}"/>
 
-        <!-- TODO: Add button to save election to Room -->
+        <Button
+            android:id="@+id/btnFollowElection"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@drawable/button_rounded"
+            android:layout_margin="@dimen/btn_margin"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:text="@string/follow_election"
+            android:visibility="gone"
+            android:onClick="@{()->viewModel.onFollowOrUnfollowClicked()}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

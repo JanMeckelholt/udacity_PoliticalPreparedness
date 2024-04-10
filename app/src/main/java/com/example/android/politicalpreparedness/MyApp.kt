@@ -21,14 +21,14 @@ class MyApp : BaseAppliction() {
         val myModule = module {
             //Declare a ViewModel - be later inject into Fragment with dedicated injector using by viewModel()
             viewModel {
-                ElectionsViewModel()
+                ElectionsViewModel(get() as ElectionDao)
             }
-            single {
+            viewModel {
                 //This view model is declared singleton to be used across multiple fragments
                 ElectionDetailViewModel(get() as ElectionDao)
             }
             //Declare singleton definitions to be later injected using by inject()
-            single {
+            viewModel {
                 //This view model is declared singleton to be used across multiple fragments
                 RepresentativeViewModel()
             }

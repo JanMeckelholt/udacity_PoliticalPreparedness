@@ -29,16 +29,18 @@ class ElectionsFragment: Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         binding.rvUpcomingElections.adapter = ElectionListAdapter(ElectionListener { viewModel.displayElectionDetails(it) })
-        binding.rvSavedElections.adapter = ElectionListAdapter(ElectionListener { viewModel.elections })
+        binding.rvSavedElections.adapter = ElectionListAdapter(ElectionListener { viewModel.displayElectionDetails(it) })
 
         viewModel.elections.observe(viewLifecycleOwner, Observer {
             Timber.i("elections changed: $it")
+        })
+        viewModel.savedElections.observe(viewLifecycleOwner, Observer {
+            Timber.i("saved elections changed: $it")
         })
         viewModel.status.observe(viewLifecycleOwner, Observer {
             if (it == CivicApiStatus.LOADING) {
                 binding.statusLoadingWheel.visibility = View.VISIBLE
                 binding.rvUpcomingElections.visibility = View.GONE
-                binding.rvSavedElections.visibility = View.GONE
             } else {
                 if (it == CivicApiStatus.ERROR) {
                     Snackbar.make(
@@ -63,6 +65,13 @@ class ElectionsFragment: Fragment() {
                 viewModel.navigationDone()
             }
         })
+
+//        viewModel.dataSource.getElectionsLiveData().observe(viewLifecycleOwner, Observer {
+//            val adapter = binding.rvSavedElections.adapter as ElectionListAdapter
+//            adapter.submitList(it)
+//        })
+
+
 
         // TODO: Add ViewModel values and create ViewModel
 

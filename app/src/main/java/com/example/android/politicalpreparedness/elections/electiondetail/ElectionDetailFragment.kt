@@ -18,6 +18,7 @@ class ElectionDetailFragment : Fragment() {
 
     private val args: ElectionDetailFragmentArgs by navArgs()
     private val viewModel: ElectionDetailViewModel by inject()
+    private lateinit var binding: FragmentElectionDetailBinding
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -26,7 +27,7 @@ class ElectionDetailFragment : Fragment() {
             : View? {
         val election = args.selectedElection
         Timber.i("selectedElection: $election")
-        val binding = FragmentElectionDetailBinding.inflate(inflater)
+        binding = FragmentElectionDetailBinding.inflate(inflater)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         viewModel.setElection(election)
@@ -57,6 +58,10 @@ class ElectionDetailFragment : Fragment() {
             }
 
         })
+
+        viewModel.isFollowed.observe(viewLifecycleOwner, Observer {
+            setButtonToFollow(it)
+        })
         // TODO: Add ViewModel values and create ViewModel
 
         // TODO: Add binding values
@@ -72,6 +77,19 @@ class ElectionDetailFragment : Fragment() {
         // TODO: Handle save button UI state
         // TODO: cont'd Handle save button clicks
         return binding.root
+    }
+
+    private fun setButtonToFollow(follow: Boolean?) {
+        if (follow == null) {
+            binding.btnFollowElection.visibility = View.GONE
+        } else {
+            binding.btnFollowElection.visibility = View.VISIBLE
+            if (follow) {
+                binding.btnFollowElection.text = getString(R.string.unfollow_election)
+            } else {
+                binding.btnFollowElection.text = getString(R.string.follow_election)
+            }
+        }
     }
 
     // TODO: Create method to load URL intents

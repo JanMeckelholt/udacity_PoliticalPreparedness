@@ -9,12 +9,16 @@ import com.example.android.politicalpreparedness.elections.CivicApiStatus
 import com.example.android.politicalpreparedness.elections.model.Election
 import com.example.android.politicalpreparedness.network.CivicsApi
 import com.example.android.politicalpreparedness.network.models.VoterInfoResponse
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+
 import timber.log.Timber
 import java.lang.Exception
 
 enum class CivicApiStatus { LOADING, ERROR, DONE }
 class ElectionDetailViewModel(private val dataSource: ElectionDao) : ViewModel() {
+
 
     private val _status = MutableLiveData<CivicApiStatus?>()
     val status: LiveData<CivicApiStatus?>
@@ -30,6 +34,10 @@ class ElectionDetailViewModel(private val dataSource: ElectionDao) : ViewModel()
     val electionDetail: LiveData<VoterInfoResponse?>
         get() = _electionDetail
 
+    private val _isFollowed = MutableLiveData<Boolean?>()
+    val isFollowed: LiveData<Boolean?>
+        get() = _isFollowed
+
     fun setElection(election: Election) {
         _election.value = election
         getDataFromCivic(election)
@@ -39,10 +47,59 @@ class ElectionDetailViewModel(private val dataSource: ElectionDao) : ViewModel()
         _status.value = CivicApiStatus.DONE
     }
 
-    init {
-
+    fun onFollowOrUnfollowClicked() {
+        if (isFollowed.value == null) {
+            Timber.e("isSaved was null!")
+            return
+        }
+        if (isFollowed.value!!) {
+            viewModelScope.launch {
+                unfollowElection()
+            }
+        } else {
+            viewModelScope.launch {
+                followElection()
+            }
+        }
 
     }
+
+    private suspend fun followElection() {
+        election.value?.let {
+            withContext(Dispatchers.IO) {
+                dataSource.insertAll(it)
+            }
+            _isFollowed.value = true
+        }
+
+    }
+
+    private suspend fun unfollowElection() {
+        election.value?.let {
+            withContext(Dispatchers.IO) {
+                dataSource.delete(it)
+            }
+            _isFollowed.value = false
+        }
+    }
+
+    init {
+        _isFollowed.value = null
+        viewModelScope.launch {
+            checkIfFollowed()
+        }
+    }
+
+    private suspend fun checkIfFollowed() {
+        Timber.i("getting Data from Civic")
+        withContext(Dispatchers.IO){
+            election.value?.let {
+               val savedElection =  dataSource.getElection(it.id)
+                _isFollowed.postValue((savedElection != null))
+            }
+        }
+    }
+
 
     //TODO: Add live data to hold voter info
 
@@ -70,7 +127,10 @@ class ElectionDetailViewModel(private val dataSource: ElectionDao) : ViewModel()
             val electionId = election.id.toLong()
             Timber.i("electionId: $electionId - election: ${election}")
             val electionDetailResponse =
-                CivicsApi.retrofitService.getVoterInfoForElection(electionId = electionId, address = election.division.state)
+                CivicsApi.retrofitService.getVoterInfoForElection(
+                    electionId = electionId,
+                    address = election.division.state
+                )
             _electionDetail.value = electionDetailResponse
             Timber.i("Details for election $electionId: state: ${electionDetailResponse.state} polling: ${electionDetailResponse.pollingLocations}")
 

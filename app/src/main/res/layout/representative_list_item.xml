@@ -27,7 +27,7 @@
 
 
         <TextView
-            android:id="@+id/representativeName"
+            android:id="@+id/tvElectionName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingHorizontal="@dimen/default_padding"
@@ -36,14 +36,14 @@
             android:textColor="@color/default_text_color"
             android:textSize="@dimen/list_item_size_text_title"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/representativeParty"
+            app:layout_constraintBottom_toTopOf="@id/tvElectionDate"
             app:layout_constraintStart_toEndOf="@+id/representativePhoto"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Donald J. Trump"
             tools:textColor="@color/colorPrimary" />
 
         <TextView
-            android:id="@+id/representativeParty"
+            android:id="@+id/tvElectionDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingHorizontal="@dimen/default_padding"
@@ -52,7 +52,7 @@
             android:textColor="@color/default_text_color"
             android:textSize="@dimen/list_item_size_text_date"
             app:layout_constraintStart_toEndOf="@id/representativePhoto"
-            app:layout_constraintTop_toBottomOf="@id/representativeName"
+            app:layout_constraintTop_toBottomOf="@id/tvElectionName"
             tools:text="Republican Party"
             tools:textColor="@color/colorPrimary" />
 
