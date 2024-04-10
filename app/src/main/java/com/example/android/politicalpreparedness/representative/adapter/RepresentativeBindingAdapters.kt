@@ -1,10 +1,17 @@
 package com.example.android.politicalpreparedness.representative.adapter
 
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.Spinner
+import androidx.appcompat.widget.AppCompatSpinner
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
+import androidx.databinding.InverseBindingAdapter
+import androidx.databinding.InverseBindingListener
+import com.example.android.politicalpreparedness.Constants
+
 
 @BindingAdapter("profileImage")
 fun fetchImage(view: ImageView, src: String?) {

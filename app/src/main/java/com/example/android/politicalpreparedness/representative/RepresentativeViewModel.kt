@@ -3,6 +3,7 @@ package com.example.android.politicalpreparedness.representative
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.android.politicalpreparedness.Constants
 
 class RepresentativeViewModel: ViewModel() {
 
@@ -21,6 +22,11 @@ class RepresentativeViewModel: ViewModel() {
     fun setLocationPermissionIsGranted(value : Boolean){
         _locationPermissionIsGranted.value = value
     }
+
+    val usStates : List<String> = Constants.usStates.values.toList()
+    var selectedUsState = MutableLiveData(usStates[0])
+
+
 
     init {
         _locationPermissionIsGranted.value = null

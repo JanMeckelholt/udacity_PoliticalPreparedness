@@ -14,6 +14,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.view.*
 import android.view.inputmethod.InputMethodManager
+import android.widget.ArrayAdapter
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -22,6 +23,7 @@ import androidx.core.location.LocationManagerCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.example.android.politicalpreparedness.BuildConfig
+import com.example.android.politicalpreparedness.Constants
 import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.databinding.FragmentRepresentativeBinding
 import com.example.android.politicalpreparedness.representative.model.Address
@@ -37,7 +39,8 @@ import org.koin.android.ext.android.inject
 import timber.log.Timber
 import java.util.Locale
 
-class DetailFragment : Fragment() {
+
+class RepresentativeFragment : Fragment() {
 
     companion object {
         //TODO: Add Constant for Location request
@@ -54,12 +57,19 @@ class DetailFragment : Fragment() {
         val layoutId = R.layout.fragment_representative
         binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
 
+        val adapter: ArrayAdapter<String> = ArrayAdapter<String>(
+            requireContext(),
+            android.R.layout.simple_spinner_dropdown_item, Constants.usStates.values.toMutableList()
+        )
+
+        binding.spinnerState.adapter = adapter
+
         //TODO: Define and assign Representative adapter
 
         //TODO: Populate Representative adapter
 
         //TODO: Establish button listeners for field and location search
-        return null
+        return binding.root
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
