@@ -33,7 +33,6 @@ import com.example.android.politicalpreparedness.representative.model.Address
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
@@ -207,6 +206,8 @@ class RepresentativeFragment : Fragment() {
                     viewModel.selectedUsState.value = address.state
                     viewModel.setStatusGeoDone()
                     viewModel.searchMyRepresentatives()
+                    hideKeyboard()
+
                 }
             }
             .addOnFailureListener { e ->

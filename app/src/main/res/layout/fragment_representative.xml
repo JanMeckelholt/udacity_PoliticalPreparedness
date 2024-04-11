@@ -189,7 +189,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvRepresentatives"
                 android:layout_width="0dp"
-                android:layout_height="300dp"
+                android:layout_height="wrap_content"
                 android:paddingTop="20dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -204,7 +204,7 @@
                 <ProgressBar
                     android:id="@+id/status_api_loading_wheel"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="200dp"
                     android:layout_marginVertical="@dimen/default_margin"
                     android:indeterminate="true"
                     android:visibility="gone"

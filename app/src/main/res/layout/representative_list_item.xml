@@ -23,7 +23,11 @@
             app:profileImage="@{representative.official.photoUrl}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:adjustViewBounds="true"
+            android:foregroundGravity="center"
+            android:scaleType="fitXY"
+            />
 
 
         <TextView

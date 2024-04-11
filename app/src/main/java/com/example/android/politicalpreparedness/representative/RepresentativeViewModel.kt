@@ -113,8 +113,9 @@ class RepresentativeViewModel(application: Application) : AndroidViewModel(appli
             )
             val representativesResponse =
                 CivicsApi.retrofitService.getRepresentatives(address = address.toFormattedString())
-            _representatives.value = representativesResponse.getRepresentatives()
             Timber.i("Success! Got representatives Data from Civic\n $representativesResponse")
+            _representatives.value = representativesResponse.getRepresentatives()
+
             Timber.i("Success! Got representatives Data from Civic Representatives\n ${representativesResponse.getRepresentatives()}")
             return Constants.Status.DONE
         } catch (e: Exception) {
