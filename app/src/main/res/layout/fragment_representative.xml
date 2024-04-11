@@ -10,13 +10,18 @@
             type="com.example.android.politicalpreparedness.representative.RepresentativeViewModel" />
     </data>
 
-    <!-- TODO: Add motion scene to hide form on vertical scroll. -->
-        <androidx.constraintlayout.motion.widget.MotionLayout
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutDescription="@xml/fragment_representative_scene"
+>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/toBeScrolled"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            >
 
-
-            <!-- TODO: Add visual styling and content -->
             <TextView
                 android:id="@+id/tvRepresentativeSearchTitle"
                 android:layout_width="wrap_content"
@@ -27,22 +32,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <!-- TODO: Add data binding value -->
-            <!-- TODO: Add visual styling and content -->
             <FrameLayout
                 android:id="@+id/flTop"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/tvRepresentativeSearchTitle"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintEnd_toEndOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvRepresentativeSearchTitle">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    >
-
+                    android:layout_height="match_parent">
 
                     <EditText
                         android:id="@+id/etAddressLine1"
@@ -55,8 +56,6 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <!-- TODO: Add data binding value -->
-                    <!-- TODO: Add visual styling and content -->
                     <EditText
                         android:id="@+id/etAddressLine2"
                         android:layout_width="match_parent"
@@ -68,8 +67,6 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/etAddressLine1" />
 
-                    <!-- TODO: Add data binding value -->
-                    <!-- TODO: Add visual styling and content -->
                     <EditText
                         android:id="@+id/etCity"
                         android:layout_width="0dp"
@@ -82,9 +79,6 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/etAddressLine2" />
 
-                    <!-- TODO: Add default values from provided resources  -->
-                    <!-- TODO: Add data binding value -->
-                    <!-- TODO: Add visual styling and content -->
                     <androidx.appcompat.widget.AppCompatSpinner
                         android:id="@+id/spinnerState"
                         selectedSpinnerItem="@={viewModel.selectedUsState}"
@@ -99,8 +93,6 @@
                         app:layout_constraintStart_toEndOf="@id/etCity"
                         app:layout_constraintTop_toTopOf="@id/etCity" />
 
-                    <!-- TODO: Add data binding value -->
-                    <!-- TODO: Add visual styling and content -->
                     <EditText
                         android:id="@+id/etZip"
                         android:layout_width="0dp"
@@ -115,6 +107,7 @@
                         app:layout_constraintTop_toBottomOf="@id/etCity" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <ProgressBar
                     android:id="@+id/status_geo_loading_wheel"
                     android:layout_width="match_parent"
@@ -124,7 +117,7 @@
                     android:visibility="gone"
                     app:layout_constraintTop_toTopOf="parent" />
             </FrameLayout>
-            <!-- TODO: Add visual styling and label -->
+
             <Button
                 android:id="@+id/btnFindMyRepresentative"
                 android:layout_width="match_parent"
@@ -136,7 +129,6 @@
                 android:textColor="@color/white"
                 app:layout_constraintTop_toBottomOf="@id/flTop" />
 
-            <!-- TODO: Add visual styling and content -->
             <Button
                 android:id="@+id/btnUseMyLocation"
                 android:layout_width="match_parent"
@@ -158,7 +150,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btnUseMyLocation" />
-            <!-- TODO: Add visual styling and content -->
+
             <TextView
                 android:id="@+id/tvMyRepresentativesTitle"
                 android:layout_width="wrap_content"
@@ -169,54 +161,47 @@
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/horizontalLine" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!-- TODO: Add Representatives RecyclerView -->
-
-            <!-- TODO: Add visual styling and content -->
-            <FrameLayout
-                android:id="@+id/flBottom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/tvMyRepresentativesTitle"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+        <FrameLayout
+            android:id="@+id/flBottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toBeScrolled">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                >
+                android:layout_height="match_parent">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvRepresentatives"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:paddingTop="20dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0"
-                app:representativesListData="@{viewModel.representatives}" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvRepresentatives"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="20dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:representativesListData="@{viewModel.representatives}" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-                <ProgressBar
-                    android:id="@+id/status_api_loading_wheel"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_marginVertical="@dimen/default_margin"
-                    android:indeterminate="true"
-                    android:visibility="gone"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/horizontalLine" />
-            </FrameLayout>
 
-        </androidx.constraintlayout.motion.widget.MotionLayout>
+            <ProgressBar
+                android:id="@+id/status_api_loading_wheel"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginVertical="@dimen/default_margin"
+                android:indeterminate="true"
+                android:visibility="gone"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/horizontalLine" />
+        </FrameLayout>
 
-
-
-
-
+    </androidx.constraintlayout.motion.widget.MotionLayout>
 </layout>

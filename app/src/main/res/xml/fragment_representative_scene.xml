@@ -2,15 +2,32 @@
 <MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ConstraintSet android:id="@+id/start">
-        <Constraint android:id="@+id/tvRepresentativeSearchTitle" />
+    <ConstraintSet android:id="@+id/rvStart">
+        <Constraint
+            android:id="@+id/toBeScrolled"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
     </ConstraintSet>
 
-    <ConstraintSet android:id="@+id/end">
-        <Constraint android:id="@id/tvRepresentativeSearchTitle" />
+    <ConstraintSet android:id="@+id/rvEnd">
+        <Constraint
+            android:id="@+id/toBeScrolled"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="parent"
+            />
     </ConstraintSet>
 
     <Transition
-        app:constraintSetEnd="@id/end"
-        app:constraintSetStart="@+id/start" />
+        app:constraintSetEnd="@+id/rvEnd"
+        app:constraintSetStart="@+id/rvStart">
+        <OnSwipe
+            app:onTouchUp="stop"
+            app:dragDirection="dragUp"
+            app:touchAnchorId="@+id/toBeScrolled"
+            />
+    </Transition>
+
+
+
 </MotionScene>

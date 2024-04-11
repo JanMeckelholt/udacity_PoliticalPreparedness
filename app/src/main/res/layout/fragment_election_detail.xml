@@ -23,7 +23,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:title="@{viewModel.election.name}"/>
 
-        <!-- TODO: Add visual styling -->
         <TextView
             android:id="@+id/election_date"
             android:layout_width="match_parent"
@@ -47,7 +46,6 @@
             android:layout_marginVertical="@dimen/default_margin"
             />
 
-        <!-- TODO: Add visual styling and content -->
         <TextView
             android:id="@+id/tvElectionInformationHeader"
             android:layout_width="wrap_content"
@@ -59,8 +57,6 @@
             android:text="@string/election_information"
             />
 
-        <!-- TODO: Add click binding to open web URL -->
-        <!-- TODO: Add visual styling and content -->
         <TextView
             android:id="@+id/tvVotingLocations"
             android:layout_width="wrap_content"
@@ -70,8 +66,6 @@
             tools:text="Voting Locations"
             app:electionDetailVotingLocations="@{viewModel.electionDetail}"/>
 
-        <!-- TODO: Add click binding to open web URL -->
-        <!-- TODO: Add visual styling and content -->
         <TextView
             android:id="@+id/tvBallotInformation"
             android:layout_width="wrap_content"
@@ -87,7 +81,6 @@
             android:layout_height="wrap_content"
             app:constraint_referenced_ids="tvCorrespondanceHeader,tvAddress" />
 
-        <!-- TODO: Add visual styling and content -->
         <TextView
             android:layout_marginTop="@dimen/default_margin"
             android:id="@+id/tvCorrespondanceHeader"
@@ -98,7 +91,6 @@
             android:textStyle="bold"
             android:text="@string/correspondance_address"/>
 
-        <!-- TODO: Add data binding -->
         <TextView
             android:id="@+id/tvAddress"
             android:layout_width="wrap_content"
