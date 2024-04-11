@@ -80,6 +80,7 @@ dependencies {
 
     // Room
     implementation "androidx.room:room-runtime:$version_room"
+    implementation 'com.google.android.gms:play-services-maps:18.2.0'
     kapt "androidx.room:room-compiler:$version_room"
 
     // Location

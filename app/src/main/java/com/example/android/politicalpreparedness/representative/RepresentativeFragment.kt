@@ -2,6 +2,7 @@ package com.example.android.politicalpreparedness.representative
 
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
@@ -34,26 +35,43 @@ import com.example.android.politicalpreparedness.representative.adapter.Represen
 import com.example.android.politicalpreparedness.representative.model.Address
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.ResolvableApiException
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.location.LocationSettingsStatusCodes
 import com.google.android.gms.location.Priority
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.material.snackbar.Snackbar
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 import java.util.Locale
+import java.util.concurrent.TimeUnit
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.tasks.CancellationToken
+import com.google.android.gms.tasks.CancellationTokenSource
+import com.google.android.gms.tasks.OnTokenCanceledListener
 
 
 class RepresentativeFragment : Fragment() {
 
     companion object {
-        //TODO: Add Constant for Location request
+        private const val REQUEST_TURN_DEVICE_LOCATION_ON = 29
+        private const val REQUEST_LOCATION_PERMISSION = 1
     }
 
     private val _viewModel: RepresentativeViewModel by inject()
     private lateinit var binding: FragmentRepresentativeBinding
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
+
+
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    private lateinit var locationRequest: LocationRequest
+    private lateinit var locationCallback: LocationCallback
+    private var currentLocation: Location? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -65,12 +83,18 @@ class RepresentativeFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
         binding.viewModel = _viewModel
         binding.lifecycleOwner = this
+        fusedLocationProviderClient =
+            LocationServices.getFusedLocationProviderClient(requireActivity())
 
-
-        binding.rvRepresentatives.adapter = RepresentativeListAdapter(RepresentativeListener { Timber.i("representative clicked ${it.name}") })
+        binding.rvRepresentatives.adapter =
+            RepresentativeListAdapter(RepresentativeListener { Timber.i("representative clicked ${it.name}") })
 
         binding.btnFindMyRepresentative.setOnClickListener {
             _viewModel.searchMyRepresentatives()
+        }
+        registerFineLocationRequestPermissionLauncher()
+        binding.btnUseMyLocation.setOnClickListener {
+            getLocation()
         }
 
         _viewModel.snackbarText.observe(viewLifecycleOwner, Observer {
@@ -109,7 +133,40 @@ class RepresentativeFragment : Fragment() {
         }
     }
 
+
+    @SuppressLint("MissingPermission")
     private fun getLocation() {
+        if (_viewModel.locationIsEnabled.value != true) {
+            checkDeviceLocationEnabled()
+            return
+        }
+        if (_viewModel.locationPermissionIsGranted.value != true) {
+            setLocationPermission()
+            return
+        }
+        fusedLocationProviderClient.getCurrentLocation(
+            Priority.PRIORITY_HIGH_ACCURACY,
+            object : CancellationToken() {
+                override fun onCanceledRequested(p0: OnTokenCanceledListener) =
+                    CancellationTokenSource().token
+
+                override fun isCancellationRequested() = false
+            })
+            .addOnSuccessListener { location: Location? ->
+                currentLocation = location
+                location?.let {
+                    val address = geoCodeLocation(it)
+                    _viewModel.addressLine1.value = address.line1
+                    _viewModel.addressLine2.value = address.line2
+                    _viewModel.zip.value = address.zip
+                    _viewModel.city.value = address.city
+                    _viewModel.selectedUsState.value = address.state
+                    _viewModel.searchMyRepresentatives()
+                }
+            }
+
+
+
         //TODO: Get location from LocationServices
         //TODO: The geoCodeLocation method is a helper function to change the lat/long location to a human readable street address
     }
@@ -199,6 +256,7 @@ class RepresentativeFragment : Fragment() {
             .addOnSuccessListener {
                 Timber.i("Successfully activated location")
                 _viewModel.setLocationIsEnabled(true)
+                getLocation()
             }
     }
 
@@ -239,28 +297,13 @@ class RepresentativeFragment : Fragment() {
                 requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            requestFineLocationPermissions(requireContext(), permissionLauncher)
+            permissionLauncher.launch(android.Manifest.permission.ACCESS_FINE_LOCATION)
         } else {
-            Timber.i("mylocation is enabled")
+            Timber.i("mylocation permission is granted")
             _viewModel.setLocationPermissionIsGranted(true)
+            getLocation()
         }
     }
-
-    private fun requestFineLocationPermissions(
-        context: Context,
-        requestPermissionLauncher: ActivityResultLauncher<String>
-    ) {
-        if (PackageManager.PERMISSION_GRANTED != ActivityCompat.checkSelfPermission(
-                context,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            )
-        ) {
-            Timber.i("launching Permission request for Post Notification")
-            requestPermissionLauncher.launch(android.Manifest.permission.ACCESS_FINE_LOCATION)
-        }
-    }
-
 }
 
-private const val REQUEST_TURN_DEVICE_LOCATION_ON = 29
-private const val REQUEST_LOCATION_PERMISSION = 1
+
