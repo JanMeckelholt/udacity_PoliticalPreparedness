@@ -10,14 +10,10 @@ import com.example.android.politicalpreparedness.elections.model.Election
 @Database(entities = [Election::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class ElectionDatabase: RoomDatabase() {
-
     abstract val electionDao: ElectionDao
-
     companion object {
-
         @Volatile
         private var INSTANCE: ElectionDatabase? = null
-
         fun getInstance(context: Context): ElectionDatabase {
             synchronized(this) {
                 var instance = INSTANCE
@@ -32,11 +28,8 @@ abstract class ElectionDatabase: RoomDatabase() {
 
                     INSTANCE = instance
                 }
-
                 return instance
             }
         }
-
     }
-
 }

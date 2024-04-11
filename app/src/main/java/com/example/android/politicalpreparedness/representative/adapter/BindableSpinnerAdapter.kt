@@ -14,13 +14,9 @@ import androidx.databinding.InverseBindingListener
 // adapted from https://medium.com/geekculture/simplifying-using-spinners-in-android-ad14f8f1213d
 class BindableSpinnerAdapter (context: Context, textViewResourceId: Int, private val values: List<String>) :
     ArrayAdapter<String>(context, textViewResourceId, values) {
-
     override fun getCount() = values.size
-
     override fun getItem(position: Int) = values[position]
-
     override fun getItemId(position: Int) = position.toLong()
-
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val label = super.getView(position, convertView, parent) as TextView
         label.text = values[position]
@@ -33,9 +29,7 @@ class BindableSpinnerAdapter (context: Context, textViewResourceId: Int, private
         return label
     }
 
-
     companion object {
-
         @BindingAdapter(value = ["spinnerItems", "selectedSpinnerItem", "selectedSpinnerItemAttrChanged"], requireAll = false)
         @JvmStatic
         fun setSpinnerItems(spinner: Spinner, spinnerItems: List<String>?, selectedSpinnerItem: String?, listener: InverseBindingListener?) {
@@ -43,7 +37,6 @@ class BindableSpinnerAdapter (context: Context, textViewResourceId: Int, private
             if (selectedItem != null && selectedSpinnerItem == selectedItem) {
                 return
             }
-
             spinnerItems?.let {
                 spinner.adapter = BindableSpinnerAdapter(spinner.context, android.R.layout.simple_spinner_dropdown_item, it)
                 setCurrentSelection(spinner, selectedSpinnerItem)
@@ -78,10 +71,7 @@ class BindableSpinnerAdapter (context: Context, textViewResourceId: Int, private
                     }
                 }
             }
-
             return false
         }
-
     }
-
 }

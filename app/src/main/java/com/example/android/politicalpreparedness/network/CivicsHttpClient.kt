@@ -7,11 +7,8 @@ import timber.log.Timber
 class CivicsHttpClient: OkHttpClient() {
 
     companion object {
-
         private const val API_KEY = BuildConfig.API_KEY
-
         fun getClient(): OkHttpClient {
-
             return Builder()
                     .addInterceptor { chain ->
                         val original = chain.request()
@@ -29,7 +26,5 @@ class CivicsHttpClient: OkHttpClient() {
                     }
                     .build()
         }
-
     }
-
 }

@@ -62,20 +62,7 @@ class ElectionDetailFragment : Fragment() {
         viewModel.isFollowed.observe(viewLifecycleOwner, Observer {
             setButtonToFollow(it)
         })
-        // TODO: Add ViewModel values and create ViewModel
 
-        // TODO: Add binding values
-
-        // TODO: Populate voter info -- hide views without provided data.
-
-        /**
-        Hint: You will need to ensure proper data is provided from previous fragment.
-         */
-
-        // TODO: Handle loading of URLs
-
-        // TODO: Handle save button UI state
-        // TODO: cont'd Handle save button clicks
         return binding.root
     }
 
@@ -92,5 +79,4 @@ class ElectionDetailFragment : Fragment() {
         }
     }
 
-    // TODO: Create method to load URL intents
 }

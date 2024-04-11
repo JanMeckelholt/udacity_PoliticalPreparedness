@@ -18,7 +18,6 @@ private const val ELECTIONS_PATH = "elections"
 private const val REPRESENTATIVES_PATH = "representatives"
 private const val VOTERINFO_PATH = "voterinfo"
 
-// TODO: Add adapters for Java Date and custom adapter ElectionAdapter (included in project)
 private val moshi = Moshi.Builder()
     .add(DateAdapter())
     .add(ElectionAdapter())

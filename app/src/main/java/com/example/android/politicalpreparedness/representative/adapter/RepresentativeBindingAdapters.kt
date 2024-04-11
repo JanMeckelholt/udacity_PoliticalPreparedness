@@ -9,7 +9,6 @@ import com.example.android.politicalpreparedness.R
 
 import timber.log.Timber
 
-
 @BindingAdapter("profileImage")
 fun fetchImage(imageView: ImageView, src: String?) {
     Timber.i("fetching img: $src")
@@ -22,7 +21,6 @@ fun fetchImage(imageView: ImageView, src: String?) {
             .scheme("https")
             .build()
         Timber.i("imageuri: $imgUri")
-
         Glide
             .with(imageView.context)
             .load(imgUri).apply(
@@ -31,6 +29,5 @@ fun fetchImage(imageView: ImageView, src: String?) {
                     .circleCrop()
             )
             .into(imageView)
-
     }
 }

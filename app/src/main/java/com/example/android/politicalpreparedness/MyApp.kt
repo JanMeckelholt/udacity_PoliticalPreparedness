@@ -14,28 +14,18 @@ class MyApp : BaseAppliction() {
 
     override fun onCreate() {
         super.onCreate()
-
-        /**
-         * use Koin Library as a service locator
-         */
         val myModule = module {
-            //Declare a ViewModel - be later inject into Fragment with dedicated injector using by viewModel()
             viewModel {
                 ElectionsViewModel(get() as ElectionDao)
             }
             viewModel {
-                //This view model is declared singleton to be used across multiple fragments
                 ElectionDetailViewModel(get() as ElectionDao)
             }
-            //Declare singleton definitions to be later injected using by inject()
             viewModel {
-                //This view model is declared singleton to be used across multiple fragments
                 RepresentativeViewModel(this@MyApp)
             }
-
             single { ElectionDatabase.getInstance(this@MyApp).electionDao  }
         }
-
         startKoin {
             androidContext(this@MyApp)
             modules(listOf(myModule))

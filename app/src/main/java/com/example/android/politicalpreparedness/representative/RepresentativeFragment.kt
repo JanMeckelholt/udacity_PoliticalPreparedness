@@ -48,7 +48,6 @@ import com.google.android.gms.tasks.OnTokenCanceledListener
 
 
 class RepresentativeFragment : Fragment() {
-
     companion object {
         private const val REQUEST_TURN_DEVICE_LOCATION_ON = 29
         private const val REQUEST_LOCATION_PERMISSION = 1
@@ -57,28 +56,22 @@ class RepresentativeFragment : Fragment() {
     private val viewModel: RepresentativeViewModel by inject()
     private lateinit var binding: FragmentRepresentativeBinding
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
-
-
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private var currentLocation: Location? = null
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         val layoutId = R.layout.fragment_representative
         binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
         fusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(requireActivity())
-
         binding.rvRepresentatives.adapter =
             RepresentativeListAdapter(RepresentativeListener { Timber.i("representative clicked ${it.official.name}") })
-
         binding.btnFindMyRepresentative.setOnClickListener {
             viewModel.searchMyRepresentatives()
         }
@@ -86,7 +79,6 @@ class RepresentativeFragment : Fragment() {
         binding.btnUseMyLocation.setOnClickListener {
             getLocation()
         }
-
         viewModel.snackbarErrText.observe(viewLifecycleOwner, Observer {
             it?.let {
                 Snackbar
@@ -101,7 +93,6 @@ class RepresentativeFragment : Fragment() {
                 viewModel.doneShowingSnackBar()
             }
         })
-
         viewModel.statusApi.observe(viewLifecycleOwner, Observer {
             if (it == Constants.Status.LOADING) {
                 binding.statusApiLoadingWheel.visibility = View.VISIBLE
@@ -123,7 +114,6 @@ class RepresentativeFragment : Fragment() {
                 binding.rvRepresentatives.visibility = View.VISIBLE
             }
         })
-
         viewModel.statusGeo.observe(viewLifecycleOwner, Observer {
             if (it == Constants.Status.LOADING) {
                 binding.statusGeoLoadingWheel.visibility = View.VISIBLE
@@ -153,12 +143,6 @@ class RepresentativeFragment : Fragment() {
                 binding.spinnerState.visibility = View.VISIBLE
             }
         })
-
-        //TODO: Define and assign Representative adapter
-
-        //TODO: Populate Representative adapter
-
-        //TODO: Establish button listeners for field and location search
         return binding.root
     }
 
@@ -214,11 +198,6 @@ class RepresentativeFragment : Fragment() {
                 Timber.e("failed getting location: ${e.message}")
                 viewModel.setStatusGeoError()
             }
-
-
-
-        //TODO: Get location from LocationServices
-        //TODO: The geoCodeLocation method is a helper function to change the lat/long location to a human readable street address
     }
 
     private fun geoCodeLocation(location: Location): Address {
@@ -318,7 +297,6 @@ class RepresentativeFragment : Fragment() {
                     true -> {
                         setLocationPermission()
                     }
-
                     false -> {
                         Snackbar.make(
                             binding.root,
@@ -339,7 +317,6 @@ class RepresentativeFragment : Fragment() {
             }
     }
 
-
     private fun setLocationPermission() {
         if (ActivityCompat.checkSelfPermission(
                 requireContext(), Manifest.permission.ACCESS_FINE_LOCATION
@@ -355,5 +332,3 @@ class RepresentativeFragment : Fragment() {
         }
     }
 }
-
-
