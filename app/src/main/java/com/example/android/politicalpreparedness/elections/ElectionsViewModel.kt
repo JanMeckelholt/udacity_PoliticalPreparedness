@@ -16,8 +16,8 @@ import java.lang.Exception
 //TODO: Construct ViewModel and provide election datasource
 class ElectionsViewModel(private val dataSource: ElectionDao) : ViewModel() {
 
-    private val _status = MutableLiveData<Constants.CivicApiStatus?>()
-    val status: LiveData<Constants.CivicApiStatus?>
+    private val _status = MutableLiveData<Constants.Status?>()
+    val status: LiveData<Constants.Status?>
         get() = _status
 
     private val _elections = MutableLiveData<List<Election>?>()
@@ -39,7 +39,7 @@ class ElectionsViewModel(private val dataSource: ElectionDao) : ViewModel() {
     }
 
     fun doneShowingSnackBar() {
-        _status.value = Constants.CivicApiStatus.DONE
+        _status.value = Constants.Status.DONE
     }
 
     fun displayElectionDetails(election: Election) {
@@ -61,20 +61,20 @@ class ElectionsViewModel(private val dataSource: ElectionDao) : ViewModel() {
     private fun getDataFromCivic() {
         Timber.i("getting Data from Civic")
         viewModelScope.launch {
-            _status.value = Constants.CivicApiStatus.LOADING
+            _status.value = Constants.Status.LOADING
             _status.value = getElections()
         }
     }
 
-    private suspend fun getElections(): Constants.CivicApiStatus {
+    private suspend fun getElections(): Constants.Status {
         try {
             val electionResponse = CivicsApi.retrofitService.getElections()
             _elections.value = electionResponse.elections
             Timber.i("Success! Got Data from Civic")
-            return Constants.CivicApiStatus.DONE
+            return Constants.Status.DONE
         } catch (e: Exception) {
             Timber.e("Failure getting elections: ${e.message} - $e")
-            return Constants.CivicApiStatus.ERROR
+            return Constants.Status.ERROR
         }
     }
 

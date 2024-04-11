@@ -33,13 +33,13 @@ class ElectionDetailFragment : Fragment() {
         viewModel.setElection(election)
 
         viewModel.status.observe(viewLifecycleOwner, Observer {
-            if (it == Constants.CivicApiStatus.LOADING) {
-                binding.statusLoadingWheel.visibility = View.VISIBLE
+            if (it == Constants.Status.LOADING) {
+                binding.statusApiLoadingWheel.visibility = View.VISIBLE
                 binding.tvElectionInformationHeader.visibility = View.GONE
                 binding.tvVotingLocations.visibility = View.GONE
                 binding.tvBallotInformation.visibility = View.GONE
             } else {
-                if (it == Constants.CivicApiStatus.ERROR) {
+                if (it == Constants.Status.ERROR) {
                     Snackbar
                         .make(
                             requireActivity().findViewById(android.R.id.content),
@@ -51,7 +51,7 @@ class ElectionDetailFragment : Fragment() {
                         .show()
                     viewModel.doneShowingSnackBar()
                 }
-                binding.statusLoadingWheel.visibility = View.GONE
+                binding.statusApiLoadingWheel.visibility = View.GONE
                 binding.tvElectionInformationHeader.visibility = View.VISIBLE
                 binding.tvVotingLocations.visibility = View.VISIBLE
                 binding.tvBallotInformation.visibility = View.VISIBLE

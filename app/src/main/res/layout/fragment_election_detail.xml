@@ -30,12 +30,12 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/default_padding"
             app:layout_constraintTop_toBottomOf="@id/election_name"
-            app:layout_constraintBottom_toTopOf="@+id/status_loading_wheel"
+            app:layout_constraintBottom_toTopOf="@+id/status_api_loading_wheel"
             app:electionDateText="@{viewModel.election.electionDay}"
             tools:text="12 November 2055" />
 
         <ProgressBar
-            android:id="@+id/status_loading_wheel"
+            android:id="@+id/status_api_loading_wheel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:indeterminate="true"
@@ -52,7 +52,7 @@
             android:id="@+id/tvElectionInformationHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/status_loading_wheel"
+            app:layout_constraintTop_toBottomOf="@id/status_api_loading_wheel"
             app:layout_constraintStart_toStartOf="@id/election_date"
             android:textStyle="bold"
             tools:text="Election Information"

@@ -1,9 +1,7 @@
 package com.example.android.politicalpreparedness
 
-import java.util.Dictionary
-
 object Constants {
-    enum class CivicApiStatus { LOADING, ERROR, DONE }
+    enum class Status { LOADING, ERROR, DONE }
 
     val usStates = mapOf<String, String>(
         "AL" to "Alabama",

@@ -4,176 +4,219 @@
     xmlns:motion="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.example.android.politicalpreparedness.representative.RepresentativeViewModel" />
     </data>
 
     <!-- TODO: Add motion scene to hide form on vertical scroll. -->
-    <androidx.constraintlayout.motion.widget.MotionLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <!-- TODO: Add visual styling and content -->
-        <TextView
-            android:id="@+id/tvRepresentativeSearchTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/representative_search"
-            android:textSize="@dimen/header_size_text"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <!-- TODO: Add data binding value -->
-        <!-- TODO: Add visual styling and content -->
-        <EditText
-            android:id="@+id/etAddressLine1"
+        <androidx.constraintlayout.motion.widget.MotionLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:autofillHints="postalAddress"
-            android:inputType="textPostalAddress"
-            android:hint="@string/address_line_1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvRepresentativeSearchTitle"
-            android:text="@={viewModel.addressLine1}"/>
+            android:layout_height="match_parent">
 
-        <!-- TODO: Add data binding value -->
-        <!-- TODO: Add visual styling and content -->
-        <EditText
-            android:id="@+id/etAddressLine2"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:autofillHints=""
-            android:inputType="textPostalAddress"
-            android:hint="@string/address_line_2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/etAddressLine1"
-            android:text="@={viewModel.addressLine2}"/>
 
-        <!-- TODO: Add data binding value -->
-        <!-- TODO: Add visual styling and content -->
-        <EditText
-            android:id="@+id/etCity"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:autofillHints=""
-            android:inputType="textPostalAddress"
-            android:hint="@string/city"
-            app:layout_constraintEnd_toStartOf="@id/spinnerState"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/etAddressLine2"
-            android:text="@={viewModel.city}"/>
+            <!-- TODO: Add visual styling and content -->
+            <TextView
+                android:id="@+id/tvRepresentativeSearchTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/representative_search"
+                android:textSize="@dimen/header_size_text"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- TODO: Add default values from provided resources  -->
-        <!-- TODO: Add data binding value -->
-        <!-- TODO: Add visual styling and content -->
-        <androidx.appcompat.widget.AppCompatSpinner
-            android:id="@+id/spinnerState"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:autofillHints=""
-            android:inputType="textPostalAddress"
-            app:layout_constraintBottom_toBottomOf="@id/etCity"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/etCity"
-            app:layout_constraintTop_toTopOf="@id/etCity"
-            selectedSpinnerItem="@={viewModel.selectedUsState}"
-            spinnerItems="@{viewModel.usStates}"
-            android:layout_marginStart="@dimen/default_margin"
-             />
+            <!-- TODO: Add data binding value -->
+            <!-- TODO: Add visual styling and content -->
+            <FrameLayout
+                android:id="@+id/flTop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/tvRepresentativeSearchTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- TODO: Add data binding value -->
-        <!-- TODO: Add visual styling and content -->
-        <EditText
-            android:id="@+id/etZip"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:autofillHints="postalCode"
-            android:inputType="number"
-            android:maxLength="5"
-            android:hint="@string/zip"
-            app:layout_constraintEnd_toEndOf="@id/etCity"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/etCity"
-            android:text="@={viewModel.zip}"/>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    >
 
-        <!-- TODO: Add visual styling and label -->
-        <Button
-            android:id="@+id/btnFindMyRepresentative"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/btn_margin"
-            android:background="@drawable/button_rounded"
-            android:backgroundTint="@color/colorPrimaryDark"
-            android:text="@string/find_my_representatives"
-            android:textColor="@color/white"
-            app:layout_constraintTop_toBottomOf="@id/etZip" />
 
-        <!-- TODO: Add visual styling and content -->
-        <Button
-            android:id="@+id/btnUseMyLocation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/btn_margin"
-            android:background="@drawable/button_rounded"
-            android:backgroundTint="@color/colorPrimaryDark"
-            android:text="@string/use_my_location"
-            android:textColor="@color/white"
-            app:layout_constraintTop_toBottomOf="@id/btnFindMyRepresentative" />
+                    <EditText
+                        android:id="@+id/etAddressLine1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autofillHints="postalAddress"
+                        android:hint="@string/address_line_1"
+                        android:inputType="textPostalAddress"
+                        android:text="@={viewModel.addressLine1}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-        <View
-            android:id="@+id/horizontalLine"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#000"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnUseMyLocation"
-            android:layout_margin="@dimen/default_margin"/>
-        <!-- TODO: Add visual styling and content -->
-        <TextView
-            android:id="@+id/tvMyRepresentativesTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/default_margin"
-            android:text="@string/my_representatives"
-            android:textSize="@dimen/header_size_text"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/horizontalLine" />
+                    <!-- TODO: Add data binding value -->
+                    <!-- TODO: Add visual styling and content -->
+                    <EditText
+                        android:id="@+id/etAddressLine2"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:autofillHints=""
+                        android:hint="@string/address_line_2"
+                        android:inputType="textPostalAddress"
+                        android:text="@={viewModel.addressLine2}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/etAddressLine1" />
 
-        <!-- TODO: Add Representatives RecyclerView -->
+                    <!-- TODO: Add data binding value -->
+                    <!-- TODO: Add visual styling and content -->
+                    <EditText
+                        android:id="@+id/etCity"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:autofillHints=""
+                        android:hint="@string/city"
+                        android:inputType="textPostalAddress"
+                        android:text="@={viewModel.city}"
+                        app:layout_constraintEnd_toStartOf="@id/spinnerState"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/etAddressLine2" />
 
-        <!-- TODO: Add visual styling and content -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvRepresentatives"
-            android:layout_width="0dp"
-            android:layout_height="300dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:representativesListData="@{viewModel.representatives}"
-            app:layout_constraintBottom_toTopOf="@id/status_loading_wheel"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvMyRepresentativesTitle"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0.0"
+                    <!-- TODO: Add default values from provided resources  -->
+                    <!-- TODO: Add data binding value -->
+                    <!-- TODO: Add visual styling and content -->
+                    <androidx.appcompat.widget.AppCompatSpinner
+                        android:id="@+id/spinnerState"
+                        selectedSpinnerItem="@={viewModel.selectedUsState}"
+                        spinnerItems="@{viewModel.usStates}"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="@dimen/default_margin"
+                        android:autofillHints=""
+                        android:inputType="textPostalAddress"
+                        app:layout_constraintBottom_toBottomOf="@id/etCity"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/etCity"
+                        app:layout_constraintTop_toTopOf="@id/etCity" />
 
-            android:paddingTop="20dp"/>
+                    <!-- TODO: Add data binding value -->
+                    <!-- TODO: Add visual styling and content -->
+                    <EditText
+                        android:id="@+id/etZip"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:autofillHints="postalCode"
+                        android:hint="@string/zip"
+                        android:inputType="number"
+                        android:maxLength="5"
+                        android:text="@={viewModel.zip}"
+                        app:layout_constraintEnd_toEndOf="@id/etCity"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/etCity" />
 
-        <ProgressBar
-            android:id="@+id/status_loading_wheel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"
-            android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/horizontalLine"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rvUpcomingElections"
-            android:layout_marginVertical="@dimen/default_margin"
-            />
-    </androidx.constraintlayout.motion.widget.MotionLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <ProgressBar
+                    android:id="@+id/status_geo_loading_wheel"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginVertical="@dimen/default_margin"
+                    android:indeterminate="true"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </FrameLayout>
+            <!-- TODO: Add visual styling and label -->
+            <Button
+                android:id="@+id/btnFindMyRepresentative"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/btn_margin"
+                android:background="@drawable/button_rounded"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:text="@string/find_my_representatives"
+                android:textColor="@color/white"
+                app:layout_constraintTop_toBottomOf="@id/flTop" />
+
+            <!-- TODO: Add visual styling and content -->
+            <Button
+                android:id="@+id/btnUseMyLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/btn_margin"
+                android:background="@drawable/button_rounded"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:text="@string/use_my_location"
+                android:textColor="@color/white"
+                app:layout_constraintTop_toBottomOf="@id/btnFindMyRepresentative" />
+
+            <View
+                android:id="@+id/horizontalLine"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_margin="@dimen/default_margin"
+                android:background="#000"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnUseMyLocation" />
+            <!-- TODO: Add visual styling and content -->
+            <TextView
+                android:id="@+id/tvMyRepresentativesTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin"
+                android:text="@string/my_representatives"
+                android:textSize="@dimen/header_size_text"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/horizontalLine" />
+
+            <!-- TODO: Add Representatives RecyclerView -->
+
+            <!-- TODO: Add visual styling and content -->
+            <FrameLayout
+                android:id="@+id/flBottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/tvMyRepresentativesTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvRepresentatives"
+                android:layout_width="0dp"
+                android:layout_height="300dp"
+                android:paddingTop="20dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
+                app:representativesListData="@{viewModel.representatives}" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+                <ProgressBar
+                    android:id="@+id/status_api_loading_wheel"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginVertical="@dimen/default_margin"
+                    android:indeterminate="true"
+                    android:visibility="gone"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/horizontalLine" />
+            </FrameLayout>
+
+        </androidx.constraintlayout.motion.widget.MotionLayout>
+
+
+
+
+
 </layout>

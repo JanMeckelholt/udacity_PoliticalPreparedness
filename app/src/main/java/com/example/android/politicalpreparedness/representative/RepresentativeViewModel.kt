@@ -16,9 +16,13 @@ import java.lang.Exception
 
 class RepresentativeViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val _status = MutableLiveData<Constants.CivicApiStatus?>()
-    val status: LiveData<Constants.CivicApiStatus?>
-        get() = _status
+    private val _statusApi = MutableLiveData<Constants.Status?>()
+    val statusApi: LiveData<Constants.Status?>
+        get() = _statusApi
+
+    private val _statusGeo = MutableLiveData<Constants.Status?>()
+    val statusGeo: LiveData<Constants.Status?>
+        get() = _statusGeo
 
     private val _representatives = MutableLiveData<List<Official>?>()
     val representatives: LiveData<List<Official>?>
@@ -40,29 +44,27 @@ class RepresentativeViewModel(application: Application) : AndroidViewModel(appli
         _locationPermissionIsGranted.value = value
     }
 
+    fun setStatusGeoLoading(){
+        _statusGeo.value = Constants.Status.LOADING
+    }
+    fun setStatusGeoDone(){
+        _statusGeo.value = Constants.Status.DONE
+    }
+    fun setStatusGeoError(){
+        _statusGeo.value = Constants.Status.ERROR
+    }
+
     val usStates: List<String> = Constants.usStates.values.toList()
     var selectedUsState = MutableLiveData(usStates[0])
 
     private var _snackbarText = MutableLiveData<String?>()
-    val snackbarText: LiveData<String?>
+    val snackbarErrText: LiveData<String?>
         get() = _snackbarText
-
 
     var addressLine1 = MutableLiveData<String>()
     var addressLine2 = MutableLiveData<String?>()
     var city = MutableLiveData<String?>()
     var zip = MutableLiveData<String?>()
-
-//    private var _address = MutableLiveData<Address?>()
-//    val address: LiveData<Address?>
-//        get() = Address(
-//            _addressLine1.value,
-//            addressLine2.value,
-//            _city.value,
-//            selectedUsState.value,
-//            _zip.value
-//        )
-
 
     init {
         _locationPermissionIsGranted.value = null
@@ -94,12 +96,12 @@ class RepresentativeViewModel(application: Application) : AndroidViewModel(appli
     private fun getDataFromCivic() {
         Timber.i("getting Data from Civic")
         viewModelScope.launch {
-            _status.value = Constants.CivicApiStatus.LOADING
-            _status.value = getRepresentatives()
+            _statusApi.value = Constants.Status.LOADING
+            _statusApi.value = getRepresentatives()
         }
     }
 
-    private suspend fun getRepresentatives(): Constants.CivicApiStatus {
+    private suspend fun getRepresentatives(): Constants.Status {
         try {
             val address = Address(
                 addressLine1.value!!,
@@ -112,10 +114,10 @@ class RepresentativeViewModel(application: Application) : AndroidViewModel(appli
                 CivicsApi.retrofitService.getRepresentatives(address = address.toFormattedString())
             _representatives.value = representativesResponse.officials
             Timber.i("Success! Got Data from Civic")
-            return Constants.CivicApiStatus.DONE
+            return Constants.Status.DONE
         } catch (e: Exception) {
             Timber.e("Failure getting representatives: ${e.message} - $e")
-            return Constants.CivicApiStatus.ERROR
+            return Constants.Status.ERROR
         }
     }
 

@@ -15,7 +15,6 @@ import android.os.Bundle
 import android.provider.Settings
 import android.view.*
 import android.view.inputmethod.InputMethodManager
-import android.widget.ArrayAdapter
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -28,8 +27,6 @@ import com.example.android.politicalpreparedness.BuildConfig
 import com.example.android.politicalpreparedness.Constants
 import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.databinding.FragmentRepresentativeBinding
-import com.example.android.politicalpreparedness.elections.adapter.ElectionListAdapter
-import com.example.android.politicalpreparedness.elections.adapter.ElectionListener
 import com.example.android.politicalpreparedness.representative.adapter.RepresentativeListAdapter
 import com.example.android.politicalpreparedness.representative.adapter.RepresentativeListener
 import com.example.android.politicalpreparedness.representative.model.Address
@@ -38,18 +35,14 @@ import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.location.LocationSettingsStatusCodes
 import com.google.android.gms.location.Priority
-import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.material.snackbar.Snackbar
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 import java.util.Locale
-import java.util.concurrent.TimeUnit
-import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.tasks.CancellationToken
 import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.OnTokenCanceledListener
@@ -62,7 +55,7 @@ class RepresentativeFragment : Fragment() {
         private const val REQUEST_LOCATION_PERMISSION = 1
     }
 
-    private val _viewModel: RepresentativeViewModel by inject()
+    private val viewModel: RepresentativeViewModel by inject()
     private lateinit var binding: FragmentRepresentativeBinding
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
 
@@ -81,7 +74,7 @@ class RepresentativeFragment : Fragment() {
 
         val layoutId = R.layout.fragment_representative
         binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
-        binding.viewModel = _viewModel
+        binding.viewModel = viewModel
         binding.lifecycleOwner = this
         fusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(requireActivity())
@@ -90,14 +83,14 @@ class RepresentativeFragment : Fragment() {
             RepresentativeListAdapter(RepresentativeListener { Timber.i("representative clicked ${it.name}") })
 
         binding.btnFindMyRepresentative.setOnClickListener {
-            _viewModel.searchMyRepresentatives()
+            viewModel.searchMyRepresentatives()
         }
         registerFineLocationRequestPermissionLauncher()
         binding.btnUseMyLocation.setOnClickListener {
             getLocation()
         }
 
-        _viewModel.snackbarText.observe(viewLifecycleOwner, Observer {
+        viewModel.snackbarErrText.observe(viewLifecycleOwner, Observer {
             it?.let {
                 Snackbar
                     .make(
@@ -108,7 +101,59 @@ class RepresentativeFragment : Fragment() {
                     .setBackgroundTint(resources.getColor(R.color.colorError))
                     .setTextColor(resources.getColor(R.color.colorBlack))
                     .show()
-                _viewModel.doneShowingSnackBar()
+                viewModel.doneShowingSnackBar()
+            }
+        })
+
+        viewModel.statusApi.observe(viewLifecycleOwner, Observer {
+            if (it == Constants.Status.LOADING) {
+                binding.statusApiLoadingWheel.visibility = View.VISIBLE
+                binding.rvRepresentatives.visibility = View.GONE
+            } else {
+                if (it == Constants.Status.ERROR) {
+                    Snackbar
+                        .make(
+                            requireActivity().findViewById(android.R.id.content),
+                            getString(R.string.api_error),
+                            Snackbar.LENGTH_LONG
+                        )
+                        .setBackgroundTint(resources.getColor(R.color.colorError))
+                        .setTextColor(resources.getColor(R.color.colorBlack))
+                        .show()
+                    viewModel.doneShowingSnackBar()
+                }
+                binding.statusApiLoadingWheel.visibility = View.GONE
+                binding.rvRepresentatives.visibility = View.VISIBLE
+            }
+        })
+
+        viewModel.statusGeo.observe(viewLifecycleOwner, Observer {
+            if (it == Constants.Status.LOADING) {
+                binding.statusGeoLoadingWheel.visibility = View.VISIBLE
+                binding.etAddressLine1.visibility = View.INVISIBLE
+                binding.etAddressLine2.visibility = View.INVISIBLE
+                binding.etZip.visibility = View.INVISIBLE
+                binding.etCity.visibility = View.INVISIBLE
+                binding.spinnerState.visibility = View.INVISIBLE
+            } else {
+                if (it == Constants.Status.ERROR) {
+                    Snackbar
+                        .make(
+                            requireActivity().findViewById(android.R.id.content),
+                            getString(R.string.errTxtGetLocationFailed),
+                            Snackbar.LENGTH_LONG
+                        )
+                        .setBackgroundTint(resources.getColor(R.color.colorError))
+                        .setTextColor(resources.getColor(R.color.colorBlack))
+                        .show()
+                    viewModel.doneShowingSnackBar()
+                }
+                binding.statusGeoLoadingWheel.visibility = View.GONE
+                binding.etAddressLine1.visibility = View.VISIBLE
+                binding.etAddressLine2.visibility = View.VISIBLE
+                binding.etZip.visibility = View.VISIBLE
+                binding.etCity.visibility = View.VISIBLE
+                binding.spinnerState.visibility = View.VISIBLE
             }
         })
 
@@ -136,14 +181,15 @@ class RepresentativeFragment : Fragment() {
 
     @SuppressLint("MissingPermission")
     private fun getLocation() {
-        if (_viewModel.locationIsEnabled.value != true) {
+        if (viewModel.locationIsEnabled.value != true) {
             checkDeviceLocationEnabled()
             return
         }
-        if (_viewModel.locationPermissionIsGranted.value != true) {
+        if (viewModel.locationPermissionIsGranted.value != true) {
             setLocationPermission()
             return
         }
+        viewModel.setStatusGeoLoading()
         fusedLocationProviderClient.getCurrentLocation(
             Priority.PRIORITY_HIGH_ACCURACY,
             object : CancellationToken() {
@@ -156,13 +202,18 @@ class RepresentativeFragment : Fragment() {
                 currentLocation = location
                 location?.let {
                     val address = geoCodeLocation(it)
-                    _viewModel.addressLine1.value = address.line1
-                    _viewModel.addressLine2.value = address.line2
-                    _viewModel.zip.value = address.zip
-                    _viewModel.city.value = address.city
-                    _viewModel.selectedUsState.value = address.state
-                    _viewModel.searchMyRepresentatives()
+                    viewModel.addressLine1.value = address.line1
+                    viewModel.addressLine2.value = address.line2
+                    viewModel.zip.value = address.zip
+                    viewModel.city.value = address.city
+                    viewModel.selectedUsState.value = address.state
+                    viewModel.setStatusGeoDone()
+                    viewModel.searchMyRepresentatives()
                 }
+            }
+            .addOnFailureListener { e ->
+                Timber.e("failed getting location: ${e.message}")
+                viewModel.setStatusGeoError()
             }
 
 
@@ -200,7 +251,7 @@ class RepresentativeFragment : Fragment() {
     private fun checkDeviceLocationEnabled(resolve: Boolean = true) {
         Timber.i("checkDeviceLocation")
         if (isLocationEnabled(requireContext())) {
-            _viewModel.setLocationIsEnabled(true)
+            viewModel.setLocationIsEnabled(true)
         }
         val locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 1000)
             .setWaitForAccurateLocation(false)
@@ -255,7 +306,7 @@ class RepresentativeFragment : Fragment() {
             }
             .addOnSuccessListener {
                 Timber.i("Successfully activated location")
-                _viewModel.setLocationIsEnabled(true)
+                viewModel.setLocationIsEnabled(true)
                 getLocation()
             }
     }
@@ -300,7 +351,7 @@ class RepresentativeFragment : Fragment() {
             permissionLauncher.launch(android.Manifest.permission.ACCESS_FINE_LOCATION)
         } else {
             Timber.i("mylocation permission is granted")
-            _viewModel.setLocationPermissionIsGranted(true)
+            viewModel.setLocationPermissionIsGranted(true)
             getLocation()
         }
     }

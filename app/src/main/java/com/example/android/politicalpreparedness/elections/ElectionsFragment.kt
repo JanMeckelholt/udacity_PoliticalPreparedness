@@ -39,11 +39,11 @@ class ElectionsFragment: Fragment() {
             Timber.i("saved elections changed: $it")
         })
         viewModel.status.observe(viewLifecycleOwner, Observer {
-            if (it == Constants.CivicApiStatus.LOADING) {
-                binding.statusLoadingWheel.visibility = View.VISIBLE
+            if (it == Constants.Status.LOADING) {
+                binding.statusApiLoadingWheel.visibility = View.VISIBLE
                 binding.rvUpcomingElections.visibility = View.GONE
             } else {
-                if (it == Constants.CivicApiStatus.ERROR) {
+                if (it == Constants.Status.ERROR) {
                     Snackbar
                         .make(
                             requireActivity().findViewById(android.R.id.content),
@@ -55,7 +55,7 @@ class ElectionsFragment: Fragment() {
                         .show()
                     viewModel.doneShowingSnackBar()
                 }
-                binding.statusLoadingWheel.visibility = View.GONE
+                binding.statusApiLoadingWheel.visibility = View.GONE
                 binding.rvUpcomingElections.visibility = View.VISIBLE
             }
 

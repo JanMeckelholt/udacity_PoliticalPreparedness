@@ -20,8 +20,8 @@ import java.lang.Exception
 class ElectionDetailViewModel(private val dataSource: ElectionDao) : ViewModel() {
 
 
-    private val _status = MutableLiveData<Constants.CivicApiStatus?>()
-    val status: LiveData<Constants.CivicApiStatus?>
+    private val _status = MutableLiveData<Constants.Status?>()
+    val status: LiveData<Constants.Status?>
         get() = _status
 
     private val _election = MutableLiveData<Election?>()
@@ -44,7 +44,7 @@ class ElectionDetailViewModel(private val dataSource: ElectionDao) : ViewModel()
     }
 
     fun doneShowingSnackBar() {
-        _status.value = Constants.CivicApiStatus.DONE
+        _status.value = Constants.Status.DONE
     }
 
     fun onFollowOrUnfollowClicked() {
@@ -117,12 +117,12 @@ class ElectionDetailViewModel(private val dataSource: ElectionDao) : ViewModel()
     private fun getDataFromCivic(election: Election) {
         Timber.i("getting Data from Civic")
         viewModelScope.launch {
-            _status.value = Constants.CivicApiStatus.LOADING
+            _status.value = Constants.Status.LOADING
             _status.value = getElectionDetails(election)
         }
     }
 
-    private suspend fun getElectionDetails(election: Election): Constants.CivicApiStatus {
+    private suspend fun getElectionDetails(election: Election): Constants.Status {
         try {
             val electionId = election.id.toLong()
             Timber.i("electionId: $electionId - election: ${election}")
@@ -134,11 +134,11 @@ class ElectionDetailViewModel(private val dataSource: ElectionDao) : ViewModel()
             _electionDetail.value = electionDetailResponse
             Timber.i("Details for election $electionId: state: ${electionDetailResponse.state} polling: ${electionDetailResponse.pollingLocations}")
 
-            return Constants.CivicApiStatus.DONE
+            return Constants.Status.DONE
         } catch (e: Exception) {
             Timber.e("Failure getting election details: ${e.message} - $e")
             _electionDetail.value = null
-            return Constants.CivicApiStatus.ERROR
+            return Constants.Status.ERROR
         }
     }
 
