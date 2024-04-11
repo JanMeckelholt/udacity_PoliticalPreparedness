@@ -32,5 +32,8 @@
     <string name="errTxtGetLocationFailed">Failed to get location!</string>
 
     <string name="representativeProfilePicture">Representative Profile Picture</string>
+    <string name="www_icon">www-Icon</string>
+    <string name="facebook_icon">Facebook-Icon</string>
+    <string name="twitter_icon">Twitter-Icon</string>
 
 </resources>

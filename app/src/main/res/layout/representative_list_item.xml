@@ -27,7 +27,7 @@
             android:adjustViewBounds="true"
             android:foregroundGravity="center"
             android:scaleType="fitXY"
-            />
+            android:contentDescription="@string/representativeProfilePicture" />
 
 
         <TextView
@@ -64,32 +64,37 @@
             android:id="@+id/wwwIcon"
             android:layout_width="@dimen/size_social_media_icon"
             android:layout_height="@dimen/size_social_media_icon"
-            android:paddingHorizontal="@dimen/default_padding"
             android:src="@drawable/ic_www"
-           app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginHorizontal="@dimen/sozial_media_margin"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/facebookIcon" />
+            app:layout_constraintEnd_toStartOf="@+id/facebookIcon"
+            android:visibility="gone"
+            android:contentDescription="@string/www_icon" />
 
         <ImageView
             android:id="@+id/facebookIcon"
             android:layout_width="@dimen/size_social_media_icon"
             android:layout_height="@dimen/size_social_media_icon"
-            android:paddingHorizontal="@dimen/default_padding"
             android:src="@drawable/ic_facebook"
+            android:layout_marginHorizontal="@dimen/sozial_media_margin"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/twitterIcon" />
+            app:layout_constraintEnd_toStartOf="@+id/twitterIcon"
+            android:visibility="gone"
+            android:contentDescription = "@string/facebook_icon" />
 
         <ImageView
             android:id="@+id/twitterIcon"
             android:layout_width="@dimen/size_social_media_icon"
             android:layout_height="@dimen/size_social_media_icon"
-            android:paddingHorizontal="@dimen/default_padding"
             android:src="@drawable/ic_twitter"
+            android:layout_marginHorizontal="@dimen/sozial_media_margin"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            />
+            android:visibility="gone"
+            android:contentDescription="@string/twitter_icon" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

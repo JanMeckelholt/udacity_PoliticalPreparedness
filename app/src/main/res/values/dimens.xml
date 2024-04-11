@@ -2,9 +2,10 @@
 <resources>
     <dimen name="default_padding">15dp</dimen>
     <dimen name="default_margin">20dp</dimen>
+    <dimen name="sozial_media_margin">10dp</dimen>
     <dimen name="loadingWheel_margin">50dp</dimen>
     <dimen name="btn_margin">20dp</dimen>
-    <dimen name="size_social_media_icon">30dp</dimen>
+    <dimen name="size_social_media_icon">40dp</dimen>
 
     <dimen name="list_item_size_text_title">25sp</dimen>
     <dimen name="list_item_size_text_date">20sp</dimen>
