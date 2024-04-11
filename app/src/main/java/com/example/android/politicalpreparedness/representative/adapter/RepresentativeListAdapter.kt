@@ -13,14 +13,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.databinding.RepresentativeListItemBinding
-import com.example.android.politicalpreparedness.elections.adapter.ElectionListAdapter
-import com.example.android.politicalpreparedness.elections.model.Election
 
 import com.example.android.politicalpreparedness.representative.model.Channel
-import com.example.android.politicalpreparedness.representative.model.Official
 import com.example.android.politicalpreparedness.representative.model.Representative
 
-class RepresentativeListAdapter(private val representativeListener: RepresentativeListener): ListAdapter<Official, RepresentativeViewHolder>(RepresentativeViewHolder.DiffCallback){
+class RepresentativeListAdapter(private val representativeListener: RepresentativeListener): ListAdapter<Representative, RepresentativeViewHolder>(RepresentativeViewHolder.DiffCallback){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepresentativeViewHolder {
         return RepresentativeViewHolder(RepresentativeListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
@@ -34,7 +31,7 @@ class RepresentativeListAdapter(private val representativeListener: Representati
 
 class RepresentativeViewHolder(val binding: RepresentativeListItemBinding): RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: Official) {
+    fun bind(item: Representative) {
         binding.representative = item
         binding.representativePhoto.setImageResource(R.drawable.ic_profile)
 
@@ -80,13 +77,13 @@ class RepresentativeViewHolder(val binding: RepresentativeListItemBinding): Recy
         val intent = Intent(ACTION_VIEW, uri)
         itemView.context.startActivity(intent)
     }
-    companion object DiffCallback : DiffUtil.ItemCallback<Official>() {
-        override fun areItemsTheSame(oldItem: Official, newItem: Official): Boolean {
-            return oldItem.name == newItem.name
+    companion object DiffCallback : DiffUtil.ItemCallback<Representative>() {
+        override fun areItemsTheSame(oldItem: Representative, newItem: Representative): Boolean {
+            return oldItem.official.name == newItem.official.name
         }
 
-        override fun areContentsTheSame(oldItem: Official, newItem: Official): Boolean {
-            return oldItem == newItem
+        override fun areContentsTheSame(oldItem: Representative, newItem: Representative): Boolean {
+            return oldItem.official == newItem.official
         }
 
     }
@@ -94,12 +91,12 @@ class RepresentativeViewHolder(val binding: RepresentativeListItemBinding): Recy
 }
 
 
-class RepresentativeListener(val clickListener: (representative: Official) -> Unit) {
-    fun onClick(representative: Official) = clickListener(representative)
+class RepresentativeListener(val clickListener: (representative: Representative) -> Unit) {
+    fun onClick(representative: Representative) = clickListener(representative)
 }
 
 @BindingAdapter("representativesListData")
-fun bindRecyclerView(recyclerView: RecyclerView, data: List<Official>?) {
+fun bindRecyclerView(recyclerView: RecyclerView, data: List<Representative>?) {
     val adapter = recyclerView.adapter as RepresentativeListAdapter
     adapter.submitList(data)
 }

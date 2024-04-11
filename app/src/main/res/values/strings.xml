@@ -31,4 +31,6 @@
     <string name="errTxtAddressInvalid">Please enter a valid address.</string>
     <string name="errTxtGetLocationFailed">Failed to get location!</string>
 
+    <string name="representativeProfilePicture">Representative Profile Picture</string>
+
 </resources>

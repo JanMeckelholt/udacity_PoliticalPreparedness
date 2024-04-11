@@ -8,8 +8,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.android.politicalpreparedness.Constants
 import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.network.CivicsApi
+import com.example.android.politicalpreparedness.network.models.getRepresentatives
 import com.example.android.politicalpreparedness.representative.model.Address
-import com.example.android.politicalpreparedness.representative.model.Official
+import com.example.android.politicalpreparedness.representative.model.Representative
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.lang.Exception
@@ -24,8 +25,8 @@ class RepresentativeViewModel(application: Application) : AndroidViewModel(appli
     val statusGeo: LiveData<Constants.Status?>
         get() = _statusGeo
 
-    private val _representatives = MutableLiveData<List<Official>?>()
-    val representatives: LiveData<List<Official>?>
+    private val _representatives = MutableLiveData<List<Representative>?>()
+    val representatives: LiveData<List<Representative>?>
         get() = _representatives
 
     private var _locationIsEnabled = MutableLiveData<Boolean?>()
@@ -112,8 +113,9 @@ class RepresentativeViewModel(application: Application) : AndroidViewModel(appli
             )
             val representativesResponse =
                 CivicsApi.retrofitService.getRepresentatives(address = address.toFormattedString())
-            _representatives.value = representativesResponse.officials
-            Timber.i("Success! Got Data from Civic")
+            _representatives.value = representativesResponse.getRepresentatives()
+            Timber.i("Success! Got representatives Data from Civic\n $representativesResponse")
+            Timber.i("Success! Got representatives Data from Civic Representatives\n ${representativesResponse.getRepresentatives()}")
             return Constants.Status.DONE
         } catch (e: Exception) {
             Timber.e("Failure getting representatives: ${e.message} - $e")

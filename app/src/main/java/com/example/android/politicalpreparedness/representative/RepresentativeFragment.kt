@@ -61,8 +61,6 @@ class RepresentativeFragment : Fragment() {
 
 
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
-    private lateinit var locationRequest: LocationRequest
-    private lateinit var locationCallback: LocationCallback
     private var currentLocation: Location? = null
 
 
@@ -80,7 +78,7 @@ class RepresentativeFragment : Fragment() {
             LocationServices.getFusedLocationProviderClient(requireActivity())
 
         binding.rvRepresentatives.adapter =
-            RepresentativeListAdapter(RepresentativeListener { Timber.i("representative clicked ${it.name}") })
+            RepresentativeListAdapter(RepresentativeListener { Timber.i("representative clicked ${it.official.name}") })
 
         binding.btnFindMyRepresentative.setOnClickListener {
             viewModel.searchMyRepresentatives()
