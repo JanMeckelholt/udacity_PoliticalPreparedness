@@ -38,26 +38,38 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.location.LocationSettingsStatusCodes
 import com.google.android.gms.location.Priority
-import com.google.android.material.snackbar.Snackbar
-import org.koin.android.ext.android.inject
-import timber.log.Timber
-import java.util.Locale
 import com.google.android.gms.tasks.CancellationToken
 import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.OnTokenCanceledListener
+import com.google.android.material.snackbar.Snackbar
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import timber.log.Timber
+import java.util.Locale
 
 
 class RepresentativeFragment : Fragment() {
     companion object {
         private const val REQUEST_TURN_DEVICE_LOCATION_ON = 29
         private const val REQUEST_LOCATION_PERMISSION = 1
+        private const val ML_STATE = "ml_state"
+
+
+
     }
 
-    private val viewModel: RepresentativeViewModel by inject()
+    private val viewModel: RepresentativeViewModel by sharedViewModel()
     private lateinit var binding: FragmentRepresentativeBinding
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private var currentLocation: Location? = null
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        Timber.i("onSavedInstance")
+        viewModel.saveLiveData()
+        Timber.i("saving Motion Layout state")
+        outState.putBundle(ML_STATE, binding.mlRepresentatives.transitionState)
+        super.onSaveInstanceState(outState)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -68,10 +80,14 @@ class RepresentativeFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
+        savedInstanceState?.let {
+            Timber.i("getting Motion Layout state2")
+            binding.mlRepresentatives.transitionState= savedInstanceState.getBundle(ML_STATE)
+        }
         fusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(requireActivity())
         binding.rvRepresentatives.adapter =
-            RepresentativeListAdapter(RepresentativeListener { Timber.i("representative clicked ${it.official.name}") })
+            RepresentativeListAdapter(RepresentativeListener { Timber.i("representative clicked ${it.name}") })
         binding.btnFindMyRepresentative.setOnClickListener {
             viewModel.searchMyRepresentatives()
         }
@@ -297,6 +313,7 @@ class RepresentativeFragment : Fragment() {
                     true -> {
                         setLocationPermission()
                     }
+
                     false -> {
                         Snackbar.make(
                             binding.root,

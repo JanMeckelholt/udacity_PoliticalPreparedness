@@ -7,6 +7,7 @@ import com.example.android.politicalpreparedness.elections.electiondetail.Electi
 import com.example.android.politicalpreparedness.representative.RepresentativeViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
 
@@ -21,9 +22,10 @@ class MyApp : BaseAppliction() {
             viewModel {
                 ElectionDetailViewModel(get() as ElectionDao)
             }
-            viewModel {
-                RepresentativeViewModel(this@MyApp)
-            }
+            viewModelOf(::RepresentativeViewModel)
+//            viewModel { (handle: SavedStateHandle) ->
+//            RepresentativeViewModel(this@MyApp, handle)
+//            }
             single { ElectionDatabase.getInstance(this@MyApp).electionDao  }
         }
         startKoin {

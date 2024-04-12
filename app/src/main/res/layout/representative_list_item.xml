@@ -7,7 +7,7 @@
 
         <variable
             name="representative"
-            type="com.example.android.politicalpreparedness.representative.model.Representative" />
+            type="com.example.android.politicalpreparedness.representative.model.StoreableRepresentative" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/list_item_padding_horizontal"
-            app:profileImage="@{representative.official.photoUrl}"
+            app:profileImage="@{representative.photoUrl}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:paddingHorizontal="@dimen/default_padding"
             android:paddingTop="@dimen/list_item_padding_vertical"
-            android:text="@{representative.official.name}"
+            android:text="@{representative.name}"
             android:textColor="@color/default_text_color"
             android:textSize="@dimen/list_item_size_text_title"
             android:textStyle="bold"
@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:paddingHorizontal="@dimen/default_padding"
             android:paddingBottom="@dimen/list_item_padding_vertical"
-            android:text="@{representative.official.party}"
+            android:text="@{representative.party}"
             android:textColor="@color/default_text_color"
             android:textSize="@dimen/list_item_size_text_date"
             app:layout_constraintStart_toEndOf="@id/representativePhoto"

@@ -92,4 +92,6 @@ dependencies {
 
     // Koin
     implementation "io.insert-koin:koin-android:$version_koin"
+
+    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.7.0"
 }

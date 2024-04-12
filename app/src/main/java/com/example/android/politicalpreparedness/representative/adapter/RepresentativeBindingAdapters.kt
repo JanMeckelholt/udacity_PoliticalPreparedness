@@ -28,6 +28,8 @@ fun fetchImage(imageView: ImageView, src: String?) {
                     .placeholder(R.drawable.ic_profile)
                     .circleCrop()
             )
+            .error(R.drawable.ic_profile)
             .into(imageView)
+
     }
 }

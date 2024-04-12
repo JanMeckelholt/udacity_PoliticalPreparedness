@@ -13,11 +13,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.politicalpreparedness.R
 import com.example.android.politicalpreparedness.databinding.RepresentativeListItemBinding
-
+import com.example.android.politicalpreparedness.getFacebookUrl
+import com.example.android.politicalpreparedness.getTwitterUrl
 import com.example.android.politicalpreparedness.representative.model.Channel
-import com.example.android.politicalpreparedness.representative.model.Representative
+import com.example.android.politicalpreparedness.representative.model.StoreableRepresentative
 
-class RepresentativeListAdapter(private val representativeListener: RepresentativeListener): ListAdapter<Representative, RepresentativeViewHolder>(RepresentativeViewHolder.DiffCallback){
+class RepresentativeListAdapter(private val representativeListener: RepresentativeListener): ListAdapter<StoreableRepresentative, RepresentativeViewHolder>(RepresentativeViewHolder.DiffCallback){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepresentativeViewHolder {
         return RepresentativeViewHolder(RepresentativeListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
@@ -31,11 +32,12 @@ class RepresentativeListAdapter(private val representativeListener: Representati
 
 class RepresentativeViewHolder(val binding: RepresentativeListItemBinding): RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: Representative) {
+    fun bind(item: StoreableRepresentative) {
         binding.representative = item
         binding.representativePhoto.setImageResource(R.drawable.ic_profile)
-        item.official.channels?.let { showSocialLinks(it) }
-        item.official.urls?.let { showWWWLinks(it) }
+        item.facebook?.let { enableLink(binding.facebookIcon, it) }
+        item.twitter?.let { enableLink(binding.twitterIcon, it) }
+        item.www?.let { enableLink(binding.wwwIcon, it) }
         binding.executePendingBindings()
     }
 
@@ -51,18 +53,6 @@ class RepresentativeViewHolder(val binding: RepresentativeListItemBinding): Recy
         enableLink(binding.wwwIcon, urls.first())
     }
 
-    private fun getFacebookUrl(channels: List<Channel>): String? {
-        return channels.filter { channel -> channel.type == "Facebook" }
-                .map { channel -> "https://www.facebook.com/${channel.id}" }
-                .firstOrNull()
-    }
-
-    private fun getTwitterUrl(channels: List<Channel>): String? {
-        return channels.filter { channel -> channel.type == "Twitter" }
-                .map { channel -> "https://www.twitter.com/${channel.id}" }
-                .firstOrNull()
-    }
-
     private fun enableLink(view: ImageView, url: String) {
         view.visibility = View.VISIBLE
         view.setOnClickListener { setIntent(url) }
@@ -73,13 +63,13 @@ class RepresentativeViewHolder(val binding: RepresentativeListItemBinding): Recy
         val intent = Intent(ACTION_VIEW, uri)
         itemView.context.startActivity(intent)
     }
-    companion object DiffCallback : DiffUtil.ItemCallback<Representative>() {
-        override fun areItemsTheSame(oldItem: Representative, newItem: Representative): Boolean {
-            return oldItem.official.name == newItem.official.name
+    companion object DiffCallback : DiffUtil.ItemCallback<StoreableRepresentative>() {
+        override fun areItemsTheSame(oldItem: StoreableRepresentative, newItem: StoreableRepresentative): Boolean {
+            return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: Representative, newItem: Representative): Boolean {
-            return oldItem.official == newItem.official
+        override fun areContentsTheSame(oldItem: StoreableRepresentative, newItem: StoreableRepresentative): Boolean {
+            return oldItem == newItem
         }
 
     }
@@ -87,12 +77,12 @@ class RepresentativeViewHolder(val binding: RepresentativeListItemBinding): Recy
 }
 
 
-class RepresentativeListener(val clickListener: (representative: Representative) -> Unit) {
-    fun onClick(representative: Representative) = clickListener(representative)
+class RepresentativeListener(val clickListener: (representative: StoreableRepresentative) -> Unit) {
+    fun onClick(representative: StoreableRepresentative) = clickListener(representative)
 }
 
 @BindingAdapter("representativesListData")
-fun bindRecyclerView(recyclerView: RecyclerView, data: List<Representative>?) {
+fun bindRecyclerView(recyclerView: RecyclerView, data: List<StoreableRepresentative>?) {
     val adapter = recyclerView.adapter as RepresentativeListAdapter
     adapter.submitList(data)
 }
