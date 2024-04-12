@@ -4,113 +4,118 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.example.android.politicalpreparedness.elections.electiondetail.ElectionDetailViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="com.example.android.politicalpreparedness.MainActivity">
+        android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/election_name"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/default_padding"
-            android:singleLine="true"
-            app:layout_constraintTop_toTopOf="parent"
-            app:title="@{viewModel.election.name}"/>
+            tools:context="com.example.android.politicalpreparedness.MainActivity">
 
-        <TextView
-            android:id="@+id/election_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/default_padding"
-            app:layout_constraintTop_toBottomOf="@id/election_name"
-            app:layout_constraintBottom_toTopOf="@+id/status_api_loading_wheel"
-            app:electionDateText="@{viewModel.election.electionDay}"
-            tools:text="12 November 2055" />
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/election_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/default_padding"
+                android:singleLine="true"
+                app:layout_constraintTop_toTopOf="parent"
+                app:title="@{viewModel.election.name}" />
 
-        <ProgressBar
-            android:id="@+id/status_api_loading_wheel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"
-            android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/tvElectionInformationHeader"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/election_date"
-            android:layout_marginVertical="@dimen/default_margin"
-            />
+            <TextView
+                android:id="@+id/election_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_padding"
+                app:electionDateText="@{viewModel.election.electionDay}"
+                app:layout_constraintBottom_toTopOf="@+id/status_api_loading_wheel"
+                app:layout_constraintTop_toBottomOf="@id/election_name"
+                tools:text="12 November 2055" />
 
-        <TextView
-            android:id="@+id/tvElectionInformationHeader"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/status_api_loading_wheel"
-            app:layout_constraintStart_toStartOf="@id/election_date"
-            android:textStyle="bold"
-            tools:text="Election Information"
-            android:text="@string/election_information"
-            />
+            <ProgressBar
+                android:id="@+id/status_api_loading_wheel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/default_margin"
+                android:indeterminate="true"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/tvElectionInformationHeader"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/election_date" />
 
-        <TextView
-            android:id="@+id/tvVotingLocations"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/tvElectionInformationHeader"
-            app:layout_constraintStart_toStartOf="@id/election_date"
-            tools:text="Voting Locations"
-            app:electionDetailVotingLocations="@{viewModel.electionDetail}"/>
+            <TextView
+                android:id="@+id/tvElectionInformationHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/election_information"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/election_date"
+                app:layout_constraintTop_toBottomOf="@id/status_api_loading_wheel"
+                tools:text="Election Information" />
 
-        <TextView
-            android:id="@+id/tvBallotInformation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/tvVotingLocations"
-            app:layout_constraintStart_toStartOf="@id/election_date"
-            tools:text="Ballot Information"
-            app:electionDetailBallotInformation="@{viewModel.electionDetail}"/>
+            <TextView
+                android:id="@+id/tvVotingLocations"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:electionDetailVotingLocations="@{viewModel.electionDetail}"
+                app:layout_constraintStart_toStartOf="@id/election_date"
+                app:layout_constraintTop_toBottomOf="@id/tvElectionInformationHeader"
+                tools:text="Voting Locations" />
 
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/address_group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:constraint_referenced_ids="tvCorrespondanceHeader,tvAddress" />
+            <TextView
+                android:id="@+id/tvBallotInformation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:electionDetailBallotInformation="@{viewModel.electionDetail}"
+                app:layout_constraintStart_toStartOf="@id/election_date"
+                app:layout_constraintTop_toBottomOf="@id/tvVotingLocations"
+                tools:text="Ballot Information" />
 
-        <TextView
-            android:layout_marginTop="@dimen/default_margin"
-            android:id="@+id/tvCorrespondanceHeader"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/tvBallotInformation"
-            app:layout_constraintStart_toStartOf="@id/election_date"
-            android:textStyle="bold"
-            android:text="@string/correspondance_address"/>
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/address_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="tvCorrespondanceHeader,tvAddress" />
 
-        <TextView
-            android:id="@+id/tvAddress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/tvCorrespondanceHeader"
-            app:layout_constraintStart_toStartOf="@id/election_date"
-            app:electionDetailCorrespondenceAddress="@{viewModel.electionDetail}"/>
+            <TextView
+                android:id="@+id/tvCorrespondanceHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin"
+                android:text="@string/correspondance_address"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/election_date"
+                app:layout_constraintTop_toBottomOf="@id/tvBallotInformation" />
 
-        <Button
-            android:id="@+id/btnFollowElection"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:background="@drawable/button_rounded"
-            android:layout_margin="@dimen/btn_margin"
-            android:textColor="@color/white"
-            android:backgroundTint="@color/colorPrimaryDark"
-            android:text="@string/follow_election"
-            android:visibility="gone"
-            android:onClick="@{()->viewModel.onFollowOrUnfollowClicked()}" />
+            <TextView
+                android:id="@+id/tvAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:electionDetailCorrespondenceAddress="@{viewModel.electionDetail}"
+                app:layout_constraintStart_toStartOf="@id/election_date"
+                app:layout_constraintTop_toBottomOf="@id/tvCorrespondanceHeader"
+                android:layout_marginBottom="@dimen/default_margin"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <Button
+                android:id="@+id/btnFollowElection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/btn_margin"
+                android:background="@drawable/button_rounded"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:onClick="@{()->viewModel.onFollowOrUnfollowClicked()}"
+                android:text="@string/follow_election"
+                android:textColor="@color/white"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvAddress"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>

@@ -7,92 +7,96 @@
         <variable
             name="viewModel"
             type="com.example.android.politicalpreparedness.elections.ElectionsViewModel" />
-
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="com.example.android.politicalpreparedness.MainActivity">
-        <TextView
-            android:id="@+id/tvUpcomingElections"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:textSize="@dimen/header_size_text"
-            android:textStyle="bold"
-            android:paddingStart="@dimen/default_padding"
-            android:text="@string/upcomingElections"/>
+            tools:context="com.example.android.politicalpreparedness.MainActivity">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvUpcomingElections"
-            android:layout_width="0dp"
-            android:layout_height="300dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:electionListData="@{viewModel.elections}"
-            app:layout_constraintBottom_toTopOf="@id/status_api_loading_wheel"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvUpcomingElections"
-            app:layout_constraintVertical_bias="0.0"
-            android:paddingTop="20dp"/>
+            <TextView
+                android:id="@+id/tvUpcomingElections"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/default_padding"
+                android:text="@string/upcomingElections"
+                android:textSize="@dimen/header_size_text"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <ProgressBar
-            android:id="@+id/status_api_loading_wheel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"
-            android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/horizontalLine"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rvUpcomingElections"
-            android:layout_marginVertical="@dimen/default_margin"
-            />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvUpcomingElections"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:paddingTop="20dp"
+                app:electionListData="@{viewModel.elections}"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toTopOf="@id/status_api_loading_wheel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvUpcomingElections"
+                app:layout_constraintVertical_bias="0.0" />
 
-
-        <View
-            android:id="@+id/horizontalLine"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#000"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/status_api_loading_wheel"
-            />
-        <TextView
-            android:id="@+id/tvSavedElections"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/horizontalLine"
-            android:layout_marginTop="@dimen/default_margin"
-            android:textSize="@dimen/header_size_text"
-            android:textStyle="bold"
-            android:paddingStart="@dimen/default_padding"
-            android:text="@string/savedElections"/>
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvSavedElections"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:electionListData="@{viewModel.savedElections}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvSavedElections"
-            app:layout_constraintVertical_bias="0.0"
-            android:paddingTop="20dp"/>
+            <ProgressBar
+                android:id="@+id/status_api_loading_wheel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/default_margin"
+                android:indeterminate="true"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/horizontalLine"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rvUpcomingElections" />
 
 
+            <View
+                android:id="@+id/horizontalLine"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#000"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/status_api_loading_wheel" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/tvSavedElections"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin"
+                android:paddingStart="@dimen/default_padding"
+                android:text="@string/savedElections"
+                android:textSize="@dimen/header_size_text"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/horizontalLine" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvSavedElections"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="20dp"
+                app:electionListData="@{viewModel.savedElections}"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvSavedElections"
+                app:layout_constraintVertical_bias="0.0" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>
